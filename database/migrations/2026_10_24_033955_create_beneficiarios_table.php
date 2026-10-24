@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('beneficiarios', function (Blueprint $table) {
             $table->id();
+            // Código anonimizado solicitado para cumplimiento perimetral de la Ley N° 29733 (Ej: BEN-CHA-001)
+            $table->string('codigo_beneficiario', 20)->unique(); 
+            // Enum estricto para sustentar las tarifas sociales diferenciadas de S/. 5 y S/. 8 en caja
+            $table->enum('tipo_comensal', ['Socio/Cocinera', 'Público General']); 
+            $table->integer('cantidad_integrantes');
+            $table->integer('raciones_asignadas');
+            $table->date('fecha_incorporacion');
+            $table->boolean('estado')->default(true);
+            
+            // Trait nativo SoftDeletes solicitado por la rúbrica para bajas lógicas
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

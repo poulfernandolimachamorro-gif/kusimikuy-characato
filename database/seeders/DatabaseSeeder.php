@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
                 'estado'               => true
             ]);
 
-            // 3. Simular transacciones históricas en el almacén del Kardex para auditoría de la MPA
+            // 3. Simular transacciones históricas en el almacén del Kardex para la MPA
             MovimientoKardex::create([
                 'beneficiario_id' => $beneficiario->id,
                 'usuario_id'      => $user->id,
@@ -52,5 +52,3 @@ class DatabaseSeeder extends Seeder
         }
     }
 }
-
-
