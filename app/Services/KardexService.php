@@ -2,46 +2,72 @@
 
 namespace App\Services;
 
-use App\Models\MovimientoKardex;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 
 class KardexService
 {
     /**
-     * Registra una salida de insumos hacia la cocina evaluando las restricciones de la MPA.
-     * 
-     * @param int $beneficiarioId
-     * @param float $cantidadKg
-     * @param string|null $detalle
-     * @return MovimientoKardex
-     * @throws Exception
+     * Procesa la transacción atómica de asistencia, caja y descuento de almacén.
+     * Satisface plenamente los requerimientos funcionales RF-03 y RF-04 del informe.
      */
-    public function registrarSalidaCocina(int $beneficiarioId, float $cantidadKg, ?string $detalle = null): MovimientoKardex
+    public function registrarEntrega($beneficiario, int $raciones, string $tipoComensal, bool $exonerado): float
     {
-        $fechaHoy = Carbon::today()->toDateString();
+        // 1. FISCALIZACIÓN DEL LÍMITE DE ARROZ MUNICIPAL (RF-04)
+        $kgPorRacion = 0.15; // 150 gramos establecidos en la receta del informe
+        $gastoArrozNuevo = $raciones * $kgPorRacion;
         
-        // Algoritmo de Control: Sumatoria atómica de los kilogramos de arroz despachados hoy
-        $totalDespachadoHoy = MovimientoKardex::where('tipo_movimiento', 'Salida - Cocina')
-            ->whereDate('created_at', $fechaHoy)
-            ->sum('cantidad_kg');
-            
-        // Regla de Negocio Crítica: Evaluación del umbral rígido municipal de 6.00 kg de arroz
-        if (($totalDespachadoHoy + $cantidadKg) > 6.00) {
-            $disponible = 6.00 - $totalDespachadoHoy;
-            throw new Exception(
-                "Operación Bloqueada: El despacho solicitado excede el límite máximo de 6.00 kg de arroz diarios establecido por la Municipalidad Provincial de Arequipa. Saldo disponible para hoy: " . number_format($disponible, 2) . " kg."
-            );
+        // Sumar consumos procesados con éxito en la fecha actual
+        $arrozConsumidoHoy = DB::table('entregas_raciones')
+            ->where('fecha_entrega', date('Y-m-d'))
+            ->sum(DB::raw('raciones_retiradas * 0.15'));
+
+        if (($arrozConsumidoHoy + $gastoArrozNuevo) > 6.00) {
+            throw new Exception("Transacción abortada: La orden excede el límite municipal de 6.00 kg de arroz diarios. Restan únicamente " . number_format(6.00 - $arrozConsumidoHoy, 2) . " kg.");
         }
 
-        // Persistencia Inmutable en MySQL si cumple la restricción
-        return MovimientoKardex::create([
-            'beneficiario_id' => $beneficiarioId,
-            'usuario_id'      => Auth::id() ?? 1, // ID del operador logueado o cuenta raíz de prueba
-            'tipo_movimiento'  => 'Salida - Cocina',
-            'cantidad_kg'     => $cantidadKg,
-            'motivo_detalle'  => $detalle ?? 'Despacho automatizado para consumo diario de raciones.'
-        ]);
+        // 2. AUTOMATIZACIÓN DE TARIFAS SOCIALES (RF-03)
+        $tarifaBase = ($tipoComensal === 'Socio/Cocinera') ? 5.00 : 8.00;
+        $cuotaCalculada = $raciones * $tarifaBase;
+
+        if ($exonerado) {
+            $cuotaCalculada = 0.00;
+        }
+
+        // 3. INYECCIÓN ATÓMICA MEDIANTE TRANSACCIONES SQL (RNF-02)
+        DB::beginTransaction();
+        try {
+            // Guardar el registro diario en la bitácora de entregas
+            $entregaId = DB::table('entregas_raciones')->insertGetId([
+                'beneficiario_id'    => $beneficiario->id,
+                'fecha_entrega'      => date('Y-m-d'),
+                'raciones_retiradas' => $raciones,
+                'cuota_cobrada'      => $cuotaCalculada,
+                'created_at'         => now(),
+                'updated_at'         => now()
+            ]);
+
+            // Sincronizar el flujo financiero de ingresos en caja chica
+            DB::table('ingresos_caja')->insert([
+                'tipo_ingreso'  => 'Cuotas Diarias',
+                'monto'         => $cuotaCalculada,
+                'fecha_ingreso' => date('Y-m-d'),
+                'entrega_id'    => $entregaId,
+                'created_at'    => now(),
+                'updated_at'    => now()
+            ]);
+
+            // Descontar físicamente las existencias del insumo base en el Kardex
+            DB::table('insumos')
+                ->where('nombre_insumo', 'Arroz Común')
+                ->decrement('stock_actual', $gastoArrozNuevo);
+
+            DB::commit();
+            return $cuotaCalculada;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new Exception("Fallo crítico en el resguardo relacional de datos: " . $e->getMessage());
+        }
     }
 }
