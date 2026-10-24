@@ -3,87 +3,80 @@
 @section('title', 'Control de Asistencia Diaria')
 
 @section('content')
-<!-- Encabezado del Módulo con Retorno Seguro -->
-<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-    <a href="/dashboard" class="secondary" style="text-decoration: none;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
-    <h2 style="margin: 0;">Módulo de Asistencia Diaria</h2>
+<!-- Barra superior de navegación interna -->
+<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem;">
+    <a href="/dashboard" class="btn-premium secondary" style="min-height: 40px; padding: 0.5rem 1rem;"><i class="fa-solid fa-chevron-left"></i> Volver</a>
+    <h2 style="margin: 0; font-size: 1.8rem;">Control de Asistencia en Línea</h2>
 </div>
 
 <div class="grid">
-    <!-- Bloque Izquierdo: Formulario Operativo de Registro -->
-    <article class="card-dinamica">
-        <h4 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-user-plus"></i> Registro de Raciones y Liquidación</h4>
+    <!-- Bloque Izquierdo: Formulario Crítico de Persistencia Relacional -->
+    <div class="card-moderna">
+        <h4 style="margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.75rem;">
+            <i class="fa-solid fa-cash-register" style="color: #1a75ff;"></i> Liquidación Atómica de Raciones
+        </h4>
         
         <form action="#" method="POST">
             @csrf
             
-            <!-- Campo de Búsqueda Predictiva del Comensal -->
-            <label for="codigo_beneficiario">
-                Código del Beneficiario (Padrón Anonimizado - Ley N° 29733):
+            <label for="codigo_beneficiario" style="font-weight: 600;">
+                Código Identificador del Comensal:
                 <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                    <input type="text" id="codigo_beneficiario" name="codigo_beneficiario" placeholder="Ej: BEN-CHA-001" required style="margin-bottom: 0;">
-                    <button type="button" class="btn-ergonomico" style="padding: 0 1rem;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" id="codigo_beneficiario" name="codigo_beneficiario" placeholder="Ej: BEN-CHA-024" required style="background: #111827; border: 1px solid rgba(255,255,255,0.1); color: white; margin-bottom: 0;">
+                    <button type="button" class="btn-premium" style="min-height: auto; padding: 0 1.2rem;"><i class="fa-solid fa-fingerprint"></i></button>
                 </div>
             </label>
 
-            <!-- Selector Semántico del Tipo de Comensal para Automatización de Tarifas -->
-            <fieldset style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-                <legend><strong>Tipo de Comensal para Aplicación de Cuota:</strong></legend>
-                <label for="socia">
+            <fieldset style="margin-top: 1.5rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.15); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02);">
+                <legend style="padding: 0 0.5rem; font-weight: bold; font-size: 0.9rem; color: #94a3b8;">CATEGORÍA DE PADRÓN (TARIFA SOCIAL)</legend>
+                <label for="socia" style="margin-bottom: 0.75rem;">
                     <input type="radio" id="socia" name="tipo_comensal" value="Socio/Cocinera" checked>
-                    Socio / Cocinera Voluntaria (Cuota Social: **S/. 5.00**)
+                    Socia / Madre de Cocina (<span style="color: #38b000; font-weight: bold;">S/. 5.00</span>)
                 </label>
-                <label for="publico">
+                <label for="publico" style="margin: 0;">
                     <input type="radio" id="publico" name="tipo_comensal" value="Público General">
-                    Público General de Characato (Cuota Social: **S/. 8.00**)
+                    Comensal Externo Characato (<span style="color: #1a75ff; font-weight: bold;">S/. 8.00</span>)
                 </label>
             </fieldset>
 
-            <!-- Input Numérico Ergonómico de Raciones Autorizadas -->
-            <label for="raciones_retiradas">
-                Cantidad de Raciones a Retirar:
-                <input type="number" id="raciones_retiradas" name="raciones_retiradas" min="1" max="4" value="2" required style="font-size: 1.2rem; font-weight: bold; text-align: center;">
-                <small class="secondary">Máximo permitido por grupo familiar según reglamento del Club de Madres.</small>
+            <label for="raciones_retiradas" style="font-weight: 600;">
+                Número de Almuerzos a Retirar:
+                <input type="number" id="raciones_retiradas" name="raciones_retiradas" min="1" max="4" value="1" required style="background: #111827; border: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
             </label>
 
-            <!-- Exoneración por Vulnerabilidad Excepcional -->
-            <label for="exonerado" style="margin-top: 1.5rem; margin-bottom: 2rem;">
-                <input type="checkbox" id="exonerado" name="exonerado" value="1">
-                <strong>Exonerar cuota social por vulnerabilidad de extrema urgencia.</strong>
+            <label for="exonerado" style="margin-top: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="exonerado" name="exonerado" value="1" style="margin: 0;">
+                <span style="font-size: 0.9rem; color: #cbd5e1;">Exoneración excepcional por vulnerabilidad crítica.</span>
             </label>
 
-            <!-- Botón Principal de Inyección Atómica hacia la Base de Datos -->
-            <button type="submit" class="button btn-ergonomico w-100" style="background-color: #38b000; border-color: #38b000; width: 100%;">
-                <i class="fa-solid fa-floppy-disk"></i> Guardar Asistencia y Descontar Almacén
+            <button type="submit" class="btn-premium" style="width: 100%;">
+                <i class="fa-solid fa-circle-check"></i> Registrar Asistencia y Procesar Cobro
             </button>
         </form>
-    </article>
+    </div>
 
-    <!-- Bloque Derecho: Panel de Control Perimetral Municipal del Arroz -->
-    <article class="card-dinamica" style="border-color: rgba(208, 0, 0, 0.3);">
-        <h4 class="text-peligro" style="margin-bottom: 1.5rem;">
-            <i class="fa-solid fa-scale-balanced"></i> Control de Porciones Municipales (MPA)
+    <!-- Bloque Derecho: Panel de Bloqueo del Límite Municipal de Arroz -->
+    <div class="card-moderna" style="border-color: rgba(239, 68, 68, 0.15) !important;">
+        <h4 style="color: #ff4d4d; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.75rem;">
+            <i class="fa-solid fa-scale-balanced" style="filter: drop-shadow(0 0 6px #ff4d4d);"></i> Restricción Operativa Municipal (MPA)
         </h4>
-        
-        <p class="secondary">
-            Regla de control integrada a tu componente backend <code style="color: #ffb703;">KardexService</code> para evitar auditorías u observaciones de los promotores del Estado.
+        <p class="subtexto" style="line-height: 1.4rem;">
+            Línea de control algorítmico inyectada para evitar suspensiones de víveres por parte de los supervisores de la Municipalidad Provincial de Arequipa.
         </p>
 
-        <!-- Barra de Progreso Visual de Consumo Diario -->
-        <div style="margin-top: 2rem; margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                <span style="font-weight: bold;">Gasto de Arroz Acumulado Hoy:</span>
-                <span style="font-weight: bold;" class="text-alerta">4.50 kg / 6.00 kg</span>
+        <!-- Barra de Progreso Avanzada Neon-Style -->
+        <div style="margin-top: 2rem; margin-bottom: 1.5rem; background: #111827; padding: 1.25rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.9rem;">
+                <span style="color: #94a3b8; font-weight: 500;">Consumo de Arroz Hoy:</span>
+                <span style="color: #ffb703; font-weight: 700;">4.50 kg / 6.00 kg (Tope Max)</span>
             </div>
-            <!-- Pico CSS Progress Bar -->
-            <progress value="4.50" max="6.00" class="warning" style="height: 1.2rem; border-radius: var(--pico-border-radius);"></progress>
+            <progress value="4.50" max="6.00" style="height: 14px; border-radius: 20px; box-shadow: 0 0 10px rgba(255,183,3,0.1);"></progress>
         </div>
 
-        <article style="background-color: rgba(255, 183, 3, 0.05); padding: 1rem; border: 1px dashed #ffb703; border-radius: var(--pico-border-radius); margin-top: 1rem;">
-            <small style="display: block; line-height: 1.4rem;">
-                <i class="fa-solid fa-circle-info text-alerta"></i> <strong>Autonomía Operativa Restante:</strong> Quedan estrictamente <strong>1.50 kg de arroz</strong> para despachos en esta jornada antes de que el framework bloquee automáticamente el controlador mediante una excepción parametrizada en idioma español.
-            </small>
-        </article>
-    </article>
+        <div style="background: rgba(26, 117, 255, 0.04); border: 1px dashed rgba(26, 117, 255, 0.2); padding: 1rem; border-radius: 8px; font-size: 0.85rem; line-height: 1.35rem;" class="subtexto">
+            <span style="color: #66b2ff; font-weight: bold;"><i class="fa-solid fa-brain"></i> Capacidad Predictiva del Sistema:</span> 
+            Restan exactamente 1.50 kg de grano común. Si la orden actual requiere un volumen superior, la transacción será abortada atómicamente por la capa lógica relacional.
+        </div>
+    </div>
 </div>
 @endsection

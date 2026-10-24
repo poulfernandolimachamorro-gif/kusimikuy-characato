@@ -3,60 +3,58 @@
 @section('title', 'Dashboard Principal')
 
 @section('content')
-<!-- Bloque Contextual de Bienvenida -->
-<div style="margin-bottom: 2rem;">
-    <h2>¡Buen día, Sra. Félipe!</h2>
-    <p class="secondary">Jornada de Control Administrativo Operacional — Comedor Popular Characato.</p>
+<div style="margin-bottom: 2.5rem;">
+    <h2 style="font-size: 2.2rem; margin-bottom: 0.25rem;">¡Bienvenida de vuelta!</h2>
+    <p class="subtexto">Consola de micro-gestión diaria y fiscalización de raciones de cocina.</p>
 </div>
 
-<!-- Alerta Crítica del Estado de Insumos (Accordion Colapsable para Reducir Carga Cognitiva) -->
-<details open style="border: 1px solid #d00000; border-radius: var(--pico-border-radius); margin-bottom: 2rem;">
-    <summary style="background-color: rgba(208, 0, 0, 0.1); color: #d00000; font-weight: bold; padding: 0.75rem 1rem;">
-        <i class="fa-solid fa-triangle-exclamation"></i> ALERTA CRÍTICA DE ALMACÉN: Insumo Defectuoso Detectado
+<!-- Alerta de Almacén con Animación y Borde de Neón Opaco -->
+<details open style="border: 1px solid rgba(208, 0, 0, 0.4); border-radius: 12px; background: rgba(208, 0, 0, 0.03); margin-bottom: 2.5rem; box-shadow: 0 4px 20px rgba(208, 0, 0, 0.15);">
+    <summary style="color: #ff4d4d; font-weight: 700; padding: 1rem; cursor: pointer; user-select: none;">
+        <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 6px #ff4d4d);"></i> ALERTA CRÍTICA: Insumo Defectuoso en Stock
     </summary>
-    <div style="padding: 1rem;">
-        <p style="margin-bottom: 0.5rem;">
-            <strong>Lote Comprometido:</strong> <code style="color: #ffb703;">L-ARR-02</code> (Arroz Común Municipal).
+    <div style="padding: 0 1rem 1rem 1rem; border-top: 1px solid rgba(208, 0, 0, 0.1); pt: 1rem; margin-top: 0.5rem;">
+        <p style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+            <strong>Lote:</strong> <code style="background: #2a1b1b; color: #ff9999; border: 1px solid rgba(255,0,0,0.2);">L-ARR-02</code> — Arroz Común Provincial.
         </p>
-        <p style="margin-bottom: 0;">
-            <strong>Detalle de Merma Evaluado:</strong> Grano verde / Tiende a apelmazarse como mazamorra rápido en cocina. Requiere fiscalización de porciones de agua.
+        <p style="margin: 0; font-size: 0.95rem;" class="subtexto">
+            Reporte de la Sra. María: Grano verde con tendencia a volverse "mazamorra". Se exige regular el volumen de agua durante el graneado para evitar mermas físicas.
         </p>
     </div>
 </details>
 
-<!-- Grid Simétrico de Indicadores Estadísticos en Vivo de la Jornada -->
-<section class="grid" style="margin-bottom: 2rem;">
-    <article class="card-dinamica" style="text-align: center;">
-        <p class="secondary" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> Padrón de Base</p>
-        <h3 style="margin: 0;">80 <small>Familias</small></h3>
-    </article>
-    <article class="card-dinamica" style="text-align: center;">
-        <p class="secondary" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-utensils"></i> Raciones Marcadas</p>
-        <h3 style="margin: 0;" class="text-exito">40 <small>Hoy</small></h3>
-    </article>
-    <article class="card-dinamica" style="text-align: center;">
-        <p class="secondary" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-boxes-stacked"></i> Almacén Suministros</p>
-        <h3 style="margin: 0;">6 <small>Insumos</small></h3>
-    </article>
-    <article class="card-dinamica" style="text-align: center;">
-        <p class="secondary" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-wallet"></i> Fondo Caja Chica</p>
-        <h3 style="margin: 0;" class="text-exito">S/. 150.00</h3>
-    </article>
+<!-- Rejilla de Métricas Modernizadas -->
+<h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">Estadísticas Operativas</h3>
+<section class="grid" style="margin-bottom: 3rem;">
+    <div class="card-moderna" style="text-align: center;">
+        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-id-card-clip"></i> Familias Adscritas</p>
+        <h2 style="margin: 0; font-size: 2.5rem; color: #ffffff;">80</h2>
+    </div>
+    <div class="card-moderna" style="text-align: center;">
+        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check" style="color: #38b000;"></i> Asistencia Hoy</p>
+        <h2 style="margin: 0; font-size: 2.5rem; color: #38b000; filter: drop-shadow(0 0 10px rgba(56, 176, 0, 0.3));">40</h2>
+    </div>
+    <div class="card-moderna" style="text-align: center;">
+        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-box" style="color: #1a75ff;"></i> Insumos Almacén</p>
+        <h2 style="margin: 0; font-size: 2.5rem; color: #1a75ff;">6</h2>
+    </div>
+    <div class="card-moderna" style="text-align: center;">
+        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-cash-register"></i> Balance de Caja</p>
+        <h2 style="margin: 0; font-size: 2.5rem; color: #ffffff;">S/. 150</h2>
+    </div>
 </section>
 
-<hr style="margin-bottom: 2rem;">
-
-<!-- Sección de Navegación de Acciones Logísticas de Alta Ergonomía -->
-<h3>Acciones Logísticas Principales</h3>
+<!-- Panel de Control Operativo con Botones de Gran Tamaño interactivos -->
+<h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">Acciones Principales</h3>
 <div class="grid">
-    <a href="/asistencia" class="button btn-ergonomico" style="background-color: #1a75ff; border-color: #1a75ff; text-decoration: none;">
-        <i class="fa-solid fa-address-card"></i> Registrar Asistencia y Cuota
+    <a href="/asistencia" class="btn-premium">
+        <i class="fa-solid fa-clipboard-user"></i> Registrar Asistencia y Cuota
     </a>
-    <a href="#" class="button secondary btn-ergonomico" role="button">
-        <i class="fa-solid fa-boxes-packing"></i> Control de Kardex / Almacén
+    <a href="#" class="btn-premium secondary" role="button">
+        <i class="fa-solid fa-boxes-stacked"></i> Movimientos de Kardex
     </a>
-    <a href="#" class="button secondary btn-ergonomico" role="button">
-        <i class="fa-solid fa-file-pdf"></i> Exportar Reporte Municipal (MPA)
+    <a href="#" class="btn-premium secondary" role="button">
+        <i class="fa-solid fa-file-invoice-dollar"></i> Rendición de Cuentas (PDF)
     </a>
 </div>
 @endsection
