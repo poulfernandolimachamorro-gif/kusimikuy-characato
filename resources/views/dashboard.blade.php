@@ -3,58 +3,161 @@
 @section('title', 'Dashboard Principal')
 
 @section('content')
-<div style="margin-bottom: 2.5rem;">
-    <h2 style="font-size: 2.2rem; margin-bottom: 0.25rem;">¡Bienvenida de vuelta!</h2>
-    <p class="subtexto">Consola de micro-gestión diaria y fiscalización de raciones de cocina.</p>
-</div>
+<style>
+    /* Animación de entrada fluida de Nivel de Producción */
+    @keyframes panelFadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-<!-- Alerta de Almacén con Animación y Borde de Neón Opaco -->
-<details open style="border: 1px solid rgba(208, 0, 0, 0.4); border-radius: 12px; background: rgba(208, 0, 0, 0.03); margin-bottom: 2.5rem; box-shadow: 0 4px 20px rgba(208, 0, 0, 0.15);">
-    <summary style="color: #ff4d4d; font-weight: 700; padding: 1rem; cursor: pointer; user-select: none;">
-        <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 6px #ff4d4d);"></i> ALERTA CRÍTICA: Insumo Defectuoso en Stock
-    </summary>
-    <div style="padding: 0 1rem 1rem 1rem; border-top: 1px solid rgba(208, 0, 0, 0.1); pt: 1rem; margin-top: 0.5rem;">
-        <p style="margin-bottom: 0.5rem; font-size: 0.95rem;">
-            <strong>Lote:</strong> <code style="background: #2a1b1b; color: #ff9999; border: 1px solid rgba(255,0,0,0.2);">L-ARR-02</code> — Arroz Común Provincial.
-        </p>
-        <p style="margin: 0; font-size: 0.95rem;" class="subtexto">
-            Reporte de la Sra. María: Grano verde con tendencia a volverse "mazamorra". Se exige regular el volumen de agua durante el graneado para evitar mermas físicas.
-        </p>
-    </div>
-</details>
+    .animacion-entrada {
+        animation: panelFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 
-<!-- Rejilla de Métricas Modernizadas -->
-<h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">Estadísticas Operativas</h3>
-<section class="grid" style="margin-bottom: 3rem;">
-    <div class="card-moderna" style="text-align: center;">
-        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-id-card-clip"></i> Familias Adscritas</p>
-        <h2 style="margin: 0; font-size: 2.5rem; color: #ffffff;">80</h2>
-    </div>
-    <div class="card-moderna" style="text-align: center;">
-        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-check" style="color: #38b000;"></i> Asistencia Hoy</p>
-        <h2 style="margin: 0; font-size: 2.5rem; color: #38b000; filter: drop-shadow(0 0 10px rgba(56, 176, 0, 0.3));">40</h2>
-    </div>
-    <div class="card-moderna" style="text-align: center;">
-        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-box" style="color: #1a75ff;"></i> Insumos Almacén</p>
-        <h2 style="margin: 0; font-size: 2.5rem; color: #1a75ff;">6</h2>
-    </div>
-    <div class="card-moderna" style="text-align: center;">
-        <p class="subtexto" style="margin-bottom: 0.5rem;"><i class="fa-solid fa-cash-register"></i> Balance de Caja</p>
-        <h2 style="margin: 0; font-size: 2.5rem; color: #ffffff;">S/. 150</h2>
-    </div>
-</section>
+    /* Rejilla Analítica Inteligente: 2 columnas en celulares, 4 en monitores de escritorio */
+    .rejilla-metricas {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.25rem !important;
+    }
+    @media (min-width: 992px) {
+        .rejilla-metricas {
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 1.75rem !important;
+        }
+    }
 
-<!-- Panel de Control Operativo con Botones de Gran Tamaño interactivos -->
-<h3 style="font-size: 1.3rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;">Acciones Principales</h3>
-<div class="grid">
-    <a href="/asistencia" class="btn-premium">
-        <i class="fa-solid fa-clipboard-user"></i> Registrar Asistencia y Cuota
+    /* Rejilla Logística para Acciones Secundarias Inferiores */
+    .rejilla-acciones-secundarias {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+    @media (min-width: 768px) {
+        .rejilla-acciones-secundarias {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+
+    /* Tarjetas de micro-monitoreo con efectos dinámicos hover y focus */
+    .tarjeta-analitica {
+        background: rgba(17, 24, 39, 0.7) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 14px !important;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tarjeta-analitica:hover {
+        border-color: rgba(26, 117, 255, 0.3) !important;
+        box-shadow: 0 10px 25px rgba(26, 117, 255, 0.08);
+        transform: translateY(-3px);
+    }
+</style>
+
+<div class="animacion-entrada">
+    <!-- Fila del Encabezado de Bienvenida y Estado del Servidor -->
+    <div style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h2 style="font-size: 2.3rem; font-weight: 800; margin: 0 0 0.35rem 0; background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em;">
+                ¡Bienvenida de vuelta, Sra. Félipe!
+            </h2>
+            <p class="subtexto" style="margin: 0; font-size: 1rem;">
+                <i class="fa-solid fa-sliders text-exito"></i> Consola centralizada de micro-gestión para el Comedor Popular Niño Jesús.
+            </p>
+        </div>
+        <!-- Indicador Inmutable del Core Transaccional -->
+        <div style="background: rgba(34, 197, 94, 0.06); border: 1px solid rgba(34, 197, 94, 0.25); padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #22c55e;"></span>
+            <span style="color: #4ade80; font-weight: 700;">Servidor: Sincronizado</span>
+        </div>
+    </div>
+
+    <!-- Alerta Operacional: Diagnóstico del Stock de Arroz Común (Caso de Uso 2) -->
+    <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+        <summary style="color: #f87171; font-weight: 700; padding: 1.1rem; cursor: pointer; user-select: none; font-size: 1.05rem;">
+            <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 5px #f87171);"></i> 
+            ALERTA OPERACIONAL: Evaluación de Calidad de Insumos (Queja de Cocina)
+        </summary>
+        <div style="padding: 0 1.1rem 1.1rem 1.1rem; border-top: 1px solid rgba(239, 68, 68, 0.08); padding-top: 1rem; margin-top: 0.2rem;">
+            <p style="margin: 0 0 0.5rem 0; font-size: 0.95rem;">
+                <strong>Lote Fiscalizado por la MPA:</strong> <code style="background: #241818; color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); padding: 0.15rem 0.4rem; border-radius: 4px;">L-ARR-02</code> — Arroz Común Municipal.
+            </p>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.45rem;" class="subtexto">
+                <strong>Incidencia de Campo (Sra. María):</strong> Grano con alta tasa de humedad ("arroz verde") propenso a volverse mazamorra rápido. Se exige a las voluntarias de cocina regular el volumen de agua durante la ebullición para resguardar las porciones de los 40 comensales.
+            </p>
+        </div>
+    </details>
+
+    <!-- Sección de Cuadrícula Analítica de Indicadores en Vivo -->
+    <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
+        <i class="fa-solid fa-chart-line"></i> Estado Operativo del Comedor
+    </h3>
+    <section class="rejilla-metricas" style="margin-bottom: 3rem;">
+        <!-- Métrica 1: Padrón Base -->
+        <div class="tarjeta-analitica">
+            <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-users"></i> Padrón Oficial</p>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #ffffff;">80 <span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">Familias</span></h2>
+        </div>
+        <!-- Métrica 2: Raciones Marcadas -->
+        <div class="tarjeta-analitica">
+            <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-utensils text-exito"></i> Raciones Marcadas</p>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #4ade80; filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.25));">40 <span style="font-size: 0.9rem; color: #15803d; font-weight: 600;">Hoy</span></h2>
+        </div>
+        <!-- Métrica 3: Suministros Kardex -->
+        <div class="tarjeta-analitica">
+            <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-boxes-stacked" style="color: #3b82f6;"></i> Insumos Almacén</p>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #3b82f6;">6 <span style="font-size: 0.9rem; color: #1d4ed8; font-weight: 600;">Tipos</span></h2>
+        </div>
+        <!-- Métrica 4: Flujo Financiero -->
+        <div class="tarjeta-analitica">
+            <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-wallet"></i> Caja Chica</p>
+            <h2 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: #ffffff;">S/. 150<span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">.00</span></h2>
+        </div>
+    </section>
+
+    <!-- Panel de Acciones con Enlaces Independientes Corregidos -->
+    <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
+        <i class="fa-solid fa-gears"></i> Procesos Funcionales Habilitados
+    </h3>
+
+    <!-- Operación Primaria: Asistencia Diaria -->
+    <a href="{{ route('asistencia.index') }}" class="btn-premium" style="width: 100%; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: flex-start; padding: 1.4rem;">
+        <i class="fa-solid fa-id-card-clip fa-lg" style="margin-right: 0.5rem;"></i>
+        <div style="text-align: left; flex-grow: 1;">
+            <span style="display: block; font-size: 1.1rem; font-weight: 700; color: #ffffff;">Registrar Asistencia y Cobro de Cuota Diaria (RF-03)</span>
+            <span style="display: block; font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.65); margin-top: 0.15rem;">
+                Interface vinculada a las cuotas diferenciadas fijas automatizadas de S/. 5.00 y S/. 8.00.
+            </span>
+        </div>
+        <i class="fa-solid fa-chevron-right" style="margin-left: auto;"></i>
     </a>
-    <a href="#" class="btn-premium secondary" role="button">
-        <i class="fa-solid fa-boxes-stacked"></i> Movimientos de Kardex
-    </a>
-    <a href="#" class="btn-premium secondary" role="button">
-        <i class="fa-solid fa-file-invoice-dollar"></i> Rendición de Cuentas (PDF)
-    </a>
+
+    <!-- Operaciones Secundarias Desacopladas (Sin duplicidades de rutas) -->
+    <div class="rejilla-acciones-secundarias">
+        <!-- Enlace 1: Control de Kardex / Almacén -->
+        <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+            <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Control de Almacén e Inventarios</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Monitoreo inmutable del Kardex de suministros y mermas físicas.</span>
+            </div>
+        </a>
+
+        <!-- Enlace 2: Exportación de Rendiciones PDF -->
+        <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+            <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Exportar Informe Mensual MPA (RF-06)</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Compilación analítica contable automatizada lista para fiscalización.</span>
+            </div>
+        </a>
+    </div>
 </div>
 @endsection
