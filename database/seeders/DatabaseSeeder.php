@@ -15,11 +15,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Crear el usuario administrador
-        $user = User::create([
-            'name'     => 'Félipe Comedor',
-            'email'    => 'felipe.characato@gmail.com',
-            'password' => Hash::make('Characato2026*'),
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'felipe.characato@gmail.com'], // Busca por este correo
+            [
+                'name'     => 'Félipe Comedor',
+                'password' => Hash::make('Characato2026*'),
+            ]
+        );
 
         // 2. Inyectar datos semilla en el padrón
         $comensales = [
