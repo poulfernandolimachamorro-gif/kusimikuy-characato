@@ -13,6 +13,7 @@
             margin: 0; padding: 0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
+            font-size: 14px !important;
         }
         
         /* Botón Premium (Incrustado para carga instantánea) */
