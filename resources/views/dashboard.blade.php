@@ -4,7 +4,6 @@
 
 @section('content')
 <style>
-    /* Animación de entrada fluida de Nivel de Producción */
     @keyframes panelFadeInUp {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -19,7 +18,6 @@
 </style>
 
 <div class="animacion-entrada">
-    <!-- Fila del Encabezado de Bienvenida y Estado del Servidor -->
     <div style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div>
             <h2 style="font-size: 2.3rem; font-weight: 800; margin: 0 0 0.35rem 0; background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em;">
@@ -29,14 +27,12 @@
                 <i class="fa-solid fa-sliders text-exito"></i> Consola centralizada de micro-gestión para el Comedor Popular Niño Jesús.
             </p>
         </div>
-        <!-- Indicador Inmutable del Core Transaccional -->
         <div style="background: rgba(34, 197, 94, 0.06); border: 1px solid rgba(34, 197, 94, 0.25); padding: 0.5rem 1.2rem; border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
             <span style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #22c55e;"></span>
             <span style="color: #4ade80; font-weight: 700;">Servidor: Sincronizado</span>
         </div>
     </div>
 
-    <!-- Alerta Operacional -->
     <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
         <summary style="color: #f87171; font-weight: 700; padding: 1.1rem; cursor: pointer; user-select: none; font-size: 1.05rem;">
             <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 5px #f87171);"></i> 
@@ -52,54 +48,43 @@
         </div>
     </details>
 
-    <!-- Sección de Cuadrícula Analítica de Indicadores en Vivo -->
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
         <i class="fa-solid fa-chart-line"></i> Estado Operativo del Comedor
     </h3>
     
     <section class="rejilla-metricas" style="margin-bottom: 3rem;">
-        <!-- Métrica 1: Padrón Base -->
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-users"></i> Padrón Oficial</p>
             <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #ffffff;">80 <span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">Familias</span></h2>
         </div>
-        <!-- Métrica 2: Raciones Marcadas -->
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-utensils text-exito"></i> Raciones Marcadas</p>
             <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #4ade80; filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.25));">40 <span style="font-size: 0.9rem; color: #15803d; font-weight: 600;">Hoy</span></h2>
         </div>
-        <!-- Métrica 3: Suministros Kardex -->
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-boxes-stacked" style="color: #3b82f6;"></i> Insumos Almacén</p>
             <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #3b82f6;">6 <span style="font-size: 0.9rem; color: #1d4ed8; font-weight: 600;">Tipos</span></h2>
         </div>
-        <!-- Métrica 4: Flujo Financiero -->
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-wallet"></i> Caja Chica</p>
             <h2 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: #ffffff;">S/. 150<span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">.00</span></h2>
         </div>
     </section>
 
-    <!-- Panel de Acciones -->
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
         <i class="fa-solid fa-gears"></i> Procesos Funcionales Habilitados
     </h3>
 
-    <!-- Botón Principal: Asistencia -->
     <a href="{{ route('asistencia.index') }}" class="btn-premium" style="width: 100%; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: flex-start; padding: 1.4rem;">
         <i class="fa-solid fa-id-card-clip fa-lg" style="margin-right: 0.5rem;"></i>
         <div style="text-align: left; flex-grow: 1;">
             <span style="display: block; font-size: 1.1rem; font-weight: 700; color: #ffffff;">Registrar Asistencia y Cobro de Cuota Diaria (RF-03)</span>
-            <span style="display: block; font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.65); margin-top: 0.15rem;">
-                Interface vinculada a las cuotas diferenciadas fijas automatizadas de S/. 5.00 y S/. 8.00.
-            </span>
+            <span style="display: block; font-size: 0.8rem; font-weight: 400; color: rgba(255,255,255,0.65); margin-top: 0.15rem;">Interface vinculada a las cuotas diferenciadas fijas automatizadas de S/. 5.00 y S/. 8.00.</span>
         </div>
         <i class="fa-solid fa-chevron-right" style="margin-left: auto;"></i>
     </a>
 
-    <!-- Botones Secundarios -->
     <div class="rejilla-acciones-secundarias">
-        <!-- Kardex -->
         <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
             <div style="text-align: left;">
@@ -108,7 +93,6 @@
             </div>
         </a>
 
-        <!-- Reportes -->
         <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
             <div style="text-align: left;">
