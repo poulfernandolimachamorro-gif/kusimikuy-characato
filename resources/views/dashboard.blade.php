@@ -122,13 +122,13 @@
         </div>
     </section>
 
-            <!-- Panel de Acciones con Enlaces Independientes Corregidos para Codespaces -->
+                <!-- Panel de Acciones -->
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
-        <i class="fa-solid fa-accessible-icon"></i> Procesos Funcionales Habilitados
+        <i class="fa-solid fa-gears"></i> Procesos Funcionales Habilitados
     </h3>
 
-    <!-- Operación Primaria: Asistencia Diaria (Apunta directamente a /asistencia) -->
-    <a href="{{ url('/asistencia') }}" class="btn-premium" style="width: 100%; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: flex-start; padding: 1.4rem;">
+    <!-- Botón Principal: Asistencia -->
+    <a href="{{ route('asistencia.index') }}" class="btn-premium" style="width: 100%; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: flex-start; padding: 1.4rem;">
         <i class="fa-solid fa-id-card-clip fa-lg" style="margin-right: 0.5rem;"></i>
         <div style="text-align: left; flex-grow: 1;">
             <span style="display: block; font-size: 1.1rem; font-weight: 700; color: #ffffff;">Registrar Asistencia y Cobro de Cuota Diaria (RF-03)</span>
@@ -139,10 +139,10 @@
         <i class="fa-solid fa-chevron-right" style="margin-left: auto;"></i>
     </a>
 
-    <!-- Operaciones Secundarias Desacopladas (Usando url() relativo) -->
+    <!-- Botones Secundarios -->
     <div class="rejilla-acciones-secundarias">
-        <!-- Enlace 1: Control de Kardex / Almacén -->
-        <a href="{{ url('/kardex') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+        <!-- Kardex -->
+        <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
             <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Control de Almacén e Inventarios</span>
@@ -150,8 +150,8 @@
             </div>
         </a>
 
-        <!-- Enlace 2: Exportación de Rendiciones PDF -->
-        <a href="{{ url('/reportes') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+        <!-- Reportes -->
+        <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
             <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Exportar Informe Mensual MPA (RF-06)</span>
@@ -159,5 +159,3 @@
             </div>
         </a>
     </div>
-</div>
-@endsection
