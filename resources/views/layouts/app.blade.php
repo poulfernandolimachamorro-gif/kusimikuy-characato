@@ -58,8 +58,7 @@
 
     <!-- Contenido -->
     <main class="ancho-controlado">
-        <!-- El {{ $slot }} es para las vistas de Breeze, @yield para las tuyas -->
-        {{ $slot ?? '' }}
+        <!-- {{ $slot ?? '' }} <--- BORRA O COMENTA ESTA LÍNEA -->
         @yield('content')
     </main>
 </body>
