@@ -43,6 +43,8 @@
             display: inline-flex; align-items: center; justify-content: center; gap: 0.7rem;
             min-height: 54px; transition: all 0.3s ease;
             border: none !important;
+            box-sizing: border-box !important; /* <--- AGREGA ESTO */
+            min-width: 0 !important; /* <--- AGREGA ESTO */
         }
         .btn-premium.secondary {
             background: rgba(30, 41, 59, 0.6) !important;

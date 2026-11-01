@@ -11,8 +11,16 @@
     .animacion-entrada { animation: panelFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
     .rejilla-metricas { display: grid; grid-template-columns: repeat(2, 1fr) !important; gap: 1.25rem !important; }
     @media (min-width: 992px) { .rejilla-metricas { grid-template-columns: repeat(4, 1fr) !important; gap: 1.75rem !important; } }
-    .rejilla-acciones-secundarias { display: grid; grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-    @media (min-width: 768px) { .rejilla-acciones-secundarias { grid-template-columns: repeat(2, 1fr) !important; } }
+    .rejilla-acciones-secundarias { 
+        display: grid !important; 
+        grid-template-columns: 1fr !important; 
+        gap: 1.5rem !important; /* <--- Aumentamos el espacio a 1.5rem */
+    }
+    @media (min-width: 768px) { 
+        .rejilla-acciones-secundarias { 
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* <--- ESTO ARREGLA EL DESBORDE */
+        } 
+    }
     .tarjeta-analitica { background: rgba(17, 24, 39, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; border-radius: 14px !important; padding: 1.5rem; text-align: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .tarjeta-analitica:hover { border-color: rgba(26, 117, 255, 0.3) !important; box-shadow: 0 10px 25px rgba(26, 117, 255, 0.08); transform: translateY(-3px); }
 </style>
