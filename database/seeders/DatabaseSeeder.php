@@ -7,23 +7,21 @@ use App\Models\Beneficiario;
 use App\Models\MovimientoKardex;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB; // <--- ESTA ES LA LÍNEA QUE FALTABA
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database de forma atómica.
-     */
     public function run(): void
     {
-        // 1. Crear el usuario administrador de prueba (Encargada Sra. Félipe)
+        // 1. Crear el usuario administrador
         $user = User::create([
             'name'     => 'Félipe Comedor',
             'email'    => 'felipe.characato@gmail.com',
             'password' => Hash::make('Characato2026*'),
         ]);
 
-        // 2. Inyectar datos semilla anonimizados en el padrón de beneficiarios (Ley N° 29733)
+        // 2. Inyectar datos semilla en el padrón
         $comensales = [
             ['codigo' => 'BEN-CHA-001', 'tipo' => 'Socio/Cocinera', 'integrantes' => 4, 'raciones' => 3],
             ['codigo' => 'BEN-CHA-002', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 2],
@@ -41,14 +39,25 @@ class DatabaseSeeder extends Seeder
                 'estado'               => true
             ]);
 
-            // 3. Simular transacciones históricas en el almacén del Kardex para la MPA
+            // 3. Simular transacciones históricas
             MovimientoKardex::create([
                 'beneficiario_id' => $beneficiario->id,
                 'usuario_id'      => $user->id,
-                'tipo_movimiento'  => 'Entrada - Municipal',
+                'tipo_movimiento' => 'Entrada - Municipal',
                 'cantidad_kg'     => 50.00,
                 'motivo_detalle'  => 'Carga inicial de sacos de arroz comunes remitidos por la Municipalidad.'
             ]);
         }
+
+        // 4. Insumo inicial para el Kardex (AFUERA DEL BUCLE)
+        DB::table('insumos')->insert([
+            'nombre_insumo' => 'Arroz Común',
+            'stock_actual' => 50.00,
+            'stock_minimo_alerta' => 10.00,
+            'limite_consumo_diario' => 6.00,
+            'unidad_medida' => 'Kilogramos',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }

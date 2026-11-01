@@ -45,7 +45,8 @@ class BeneficiarioController extends Controller
                 $request->has('exonerado')
             );
 
-            return redirect()->route('dashboard')->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
+            // CAMBIO AQUÍ: Redirige a la misma página (atrás) en lugar del dashboard
+            return redirect()->back()->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
 
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['limite' => $e->getMessage()]);
