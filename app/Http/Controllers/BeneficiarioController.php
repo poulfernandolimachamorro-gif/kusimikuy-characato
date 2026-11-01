@@ -52,4 +52,12 @@ class BeneficiarioController extends Controller
             return redirect()->back()->withErrors(['limite' => $e->getMessage()]);
         }
     }
+
+    // Función para listar a los beneficiarios (READ)
+    public function index()
+    {
+        // Usamos paginación para que no colapse si hay muchos
+        $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(10);
+        return view('beneficiarios.index', compact('beneficiarios'));
+    }
 }

@@ -2,24 +2,40 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeneficiarioController;
+use App\Http\Controllers\ProfileController; // <-- Añadido por Breeze
 
-Route::redirect('/', '/dashboard');
+Route::get('/', function () {
+    return redirect()->route('login'); // Ahora inicia en el Login
+});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Todas estas rutas requieren estar logueado (Middleware Auth)
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/asistencia', function () {
-    return view('asistencia.index');
-})->name('asistencia.index');
+    Route::get('/asistencia', function () {
+        return view('asistencia.index');
+    })->name('asistencia.index');
 
-Route::post('/asistencia/registrar', [BeneficiarioController::class, 'store'])->name('asistencia.store');
+    Route::post('/asistencia/registrar', [BeneficiarioController::class, 'store'])->name('asistencia.store');
 
-// Rutas hacia las vistas elegantes
-Route::get('/kardex', function () {
-    return view('kardex.index');
-})->name('kardex.index');
+    Route::get('/kardex', function () {
+        return view('kardex.index');
+    })->name('kardex.index');
 
-Route::get('/reportes', function () {
-    return view('reportes.index');
-})->name('reportes.index');
+    Route::get('/reportes', function () {
+        return view('reportes.index');
+    })->name('reportes.index');
+
+    // Ruta para listar beneficiarios (READ)
+    Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
+    
+    // Rutas de perfil que trae Breeze por defecto
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php'; // <-- Archivo de rutas de Breeze
