@@ -99,6 +99,7 @@
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
         <i class="fa-solid fa-chart-line"></i> Estado Operativo del Comedor
     </h3>
+    
     <section class="rejilla-metricas" style="margin-bottom: 3rem;">
         <!-- Métrica 1: Padrón Base -->
         <div class="tarjeta-analitica">
@@ -122,7 +123,7 @@
         </div>
     </section>
 
-                <!-- Panel de Acciones -->
+    <!-- Panel de Acciones -->
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
         <i class="fa-solid fa-gears"></i> Procesos Funcionales Habilitados
     </h3>
@@ -142,7 +143,7 @@
     <!-- Botones Secundarios -->
     <div class="rejilla-acciones-secundarias">
         <!-- Kardex -->
-        <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+        <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Control de Almacén e Inventarios</span>
@@ -151,7 +152,7 @@
         </a>
 
         <!-- Reportes -->
-        <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem;">
+        <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Exportar Informe Mensual MPA (RF-06)</span>
@@ -159,3 +160,5 @@
             </div>
         </a>
     </div>
+</div>
+@endsection

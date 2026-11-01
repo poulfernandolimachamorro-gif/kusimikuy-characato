@@ -5,38 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KusiMikuy Characato - @yield('title')</title>
     
-    <!-- Renderizado Crítico: Evita parpadeos en blanco forzando el modo oscuro desde el inicio -->
+    <!-- 1. CSS CRÍTICO: Evita parpadeos en blanco y carga los estilos base de inmediato (Anti-FOUC) -->
     <style>
         html, body {
             background-color: #070a12 !important;
             color: #f1f5f9 !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-    </style>
-
-    <!-- Hojas de Estilo Externas Oficiales (Licencia MIT) -->
-    <link rel="stylesheet" href="https://jsdelivr.net">
-    <link rel="stylesheet" href="https://cloudflare.com">
-    
-    <style>
-        body {
-            background-image: radial-gradient(at 0% 0%, rgba(26, 117, 255, 0.1) 0px, transparent 50%),
-                              radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.08) 0px, transparent 50%) !important;
+            margin: 0; padding: 0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-            margin: 0;
-            padding: 0;
         }
-
-        .ancho-controlado {
-            max-width: 1240px;
-            margin: 0 auto;
-            padding: 0 1.25rem;
-            width: 100%;
-        }
-
-        /* Botón Premium con área táctil accesible mínima de 54px (WCAG 2.2 SC 2.5.8) */
+        
+        /* Botón Premium (Incrustado para carga instantánea) */
         .btn-premium {
             background: linear-gradient(135deg, #1a75ff, #0052cc) !important;
             border: none !important;
@@ -60,7 +39,6 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(26, 117, 255, 0.3);
         }
-
         .btn-premium.secondary {
             background: rgba(30, 41, 59, 0.6) !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -76,7 +54,28 @@
             border-color: rgba(255, 255, 255, 0.15) !important;
             transform: none;
         }
+        .caja-cristal {
+            background: rgba(18, 24, 38, 0.65) !important;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 14px !important;
+            padding: 1.75rem;
+        }
+        .text-exito { color: #4ade80 !important; }
+        .subtexto { color: #94a3b8; font-size: 0.9rem; }
+        .ancho-controlado { max-width: 1240px; margin: 0 auto; padding: 0 1.25rem; width: 100%; }
+    </style>
 
+    <!-- 2. Enlaces Reales a los Frameworks (Pico CSS y FontAwesome) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 3. Estilos adicionales de fondo -->
+    <style>
+        body {
+            background-image: radial-gradient(at 0% 0%, rgba(26, 117, 255, 0.1) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.08) 0px, transparent 50%) !important;
+        }
         nav.menu-superior {
             background: rgba(13, 18, 30, 0.5);
             backdrop-filter: blur(12px);
@@ -85,9 +84,6 @@
             padding: 0.85rem 0;
             margin-bottom: 2.5rem;
         }
-
-        .text-exito { color: #4ade80 !important; }
-        .subtexto { color: #94a3b8; font-size: 0.9rem; }
     </style>
 </head>
 <body>
