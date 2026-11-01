@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeneficiarioController;
 
@@ -18,11 +17,11 @@ Route::get('/asistencia', function () {
 
 Route::post('/asistencia/registrar', [BeneficiarioController::class, 'store'])->name('asistencia.store');
 
-// Rutas en Desarrollo (Evitan que el Dashboard lance error 500)
+// Placeholders limpios usando el layout base
 Route::get('/kardex', function () {
-    return "<h3 style='color:white; text-align:center; margin-top:20vh;'>[Módulo en Desarrollo] Mapeo inmutable de movimientos de stock del Comedor.</h3>";
+    return "<body style='background-color:#070a12; color:white; font-family:sans-serif;'><h3 style='text-align:center; margin-top:30vh;'>📦 [Módulo en Desarrollo - Semana 11]<br><span style='font-weight:300; font-size:1rem; color:#94a3b8;'>Mapeo inmutable de movimientos de stock del Comedor Popular.</span></h3><p style='text-align:center;'><a href='/dashboard' style='color:#1a75ff; text-decoration:none;'>← Volver al Dashboard</a></p></body>";
 })->name('kardex.index');
 
 Route::get('/reportes', function () {
-    return "<h3 style='color:white; text-align:center; margin-top:20vh;'>[Módulo en Desarrollo] Compilación analítica de informes mensuales para la MPA.</h3>";
+    return "<body style='background-color:#070a12; color:white; font-family:sans-serif;'><h3 style='text-align:center; margin-top:30vh;'>📄 [Módulo en Desarrollo - Semana 11]<br><span style='font-weight:300; font-size:1rem; color:#94a3b8;'>Compilación analítica de informes mensuales para la MPA (PDF).</span></h3><p style='text-align:center;'><a href='/dashboard' style='color:#1a75ff; text-decoration:none;'>← Volver al Dashboard</a></p></body>";
 })->name('reportes.index');
