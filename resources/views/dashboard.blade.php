@@ -26,12 +26,12 @@
 </style>
 
 <div class="animacion-entrada">
-    <div style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <div>
-            <h2 style="font-size: 2.3rem; font-weight: 800; margin: 0 0 0.35rem 0; background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em;">
+    <div style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; width: 100%;">
+        <div style="max-width: 100%;">
+            <h2 style="font-size: 1.8rem; font-weight: 800; margin: 0 0 0.35rem 0; background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; line-height: 1.2;">
                 ¡Bienvenida de vuelta, Sra. Félipe!
             </h2>
-            <p class="subtexto" style="margin: 0; font-size: 1rem;">
+            <p class="subtexto" style="margin: 0; font-size: 0.9rem; line-height: 1.4;">
                 <i class="fa-solid fa-sliders text-exito"></i> Consola centralizada de micro-gestión para el Comedor Popular Niño Jesús.
             </p>
         </div>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+    <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3); width: 100%; max-width: 100%; box-sizing: border-box;">
         <summary style="color: #f87171; font-weight: 700; padding: 1.1rem; cursor: pointer; user-select: none; font-size: 1.05rem;">
             <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 5px #f87171);"></i> 
             ALERTA OPERACIONAL: Evaluación de Calidad de Insumos (Queja de Cocina)

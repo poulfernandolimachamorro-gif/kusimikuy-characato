@@ -16,13 +16,14 @@
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
             font-size: 14px !important; /* Forzado a 14px como antes */
             min-height: 100vh;
+            overflow-x: hidden !important;
             background-image: radial-gradient(at 0% 0%, rgba(26, 117, 255, 0.1) 0px, transparent 50%),
                               radial-gradient(at 100% 100%, rgba(34, 197, 94, 0.08) 0px, transparent 50%) !important;
         }
         
         h1, h2, h3, h4, h5, h6 { font-size: revert !important; font-weight: bold; }
         
-        .ancho-controlado { max-width: 1240px; margin: 0 auto; padding: 0 1.25rem; width: 100%; }
+        .ancho-controlado { max-width: 1240px; margin: 0 auto; padding: 0 1.25rem; width: 100%; box-sizing: border-box; }
         
         .menu-superior {
             background: rgba(13, 18, 30, 0.5);
@@ -63,16 +64,16 @@
 <body>
     <!-- Barra de Navegación -->
     <nav class="menu-superior">
-        <div class="ancho-controlado" style="display: flex; justify-content: space-between; align-items: center;">
-            <strong style="font-size: 1.35rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+        <div class="ancho-controlado" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <strong style="font-size: 1.2rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
                 <i class="fa-solid fa-bowl-rice text-exito"></i> 
-                KusiMikuy <span style="color: #1a75ff; font-weight: 300;">Characato</span>
+                KusiMikuy <span style="color: #1a75ff; font-weight: 300; display: none;">Characato</span> <!-- Oculto en celular para ahorrar espacio -->
             </strong>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <a href="{{ route('dashboard') }}" style="color: #cbd5e1; text-decoration: none; font-size: 0.9rem;"><i class="fa-solid fa-house"></i> Inicio</a>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <a href="{{ route('dashboard') }}" style="color: #cbd5e1; text-decoration: none; font-size: 0.8rem;"><i class="fa-solid fa-house"></i> Inicio</a>
                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                     @csrf
-                    <button type="submit" style="background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; cursor: pointer;">
+                    <button type="submit" style="background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; cursor: pointer;">
                         <i class="fa-solid fa-right-from-bracket"></i> Salir
                     </button>
                 </form>
