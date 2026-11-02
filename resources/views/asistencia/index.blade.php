@@ -247,9 +247,9 @@
                 <div style="background: #090d16; padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); margin-bottom: 1.25rem;">
                     <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600;">
                         <span style="color: #94a3b8;">Gasto de Arroz Hoy:</span>
-                        <span style="color: #facc15;" id="texto-progreso">0.00 kg / 6.00 kg</span>
+                        <span style="color: #facc15;" id="texto-progreso">{{ number_format($consumoHoy ?? 0, 2) }} kg / 6.00 kg</span>
                     </div>
-                    <progress value="0" max="6.00" class="barra-progreso-neon" id="barra-arroz"></progress>
+                    <progress value="{{ $consumoHoy ?? 0 }}" max="6.00" class="barra-progreso-neon" id="barra-arroz"></progress>
                 </div>
             </div>
         </div>
