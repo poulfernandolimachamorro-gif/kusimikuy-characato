@@ -22,8 +22,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/asistencia/registrar', [BeneficiarioController::class, 'store'])->name('asistencia.store');
 
-    Route::get('/kardex', function () {
-        return view('kardex.index');
+        Route::get('/kardex', function () {
+        $insumos = \Illuminate\Support\Facades\DB::table('insumos')->get();
+        return view('kardex.index', compact('insumos'));
     })->name('kardex.index');
 
     Route::get('/reportes', function () {
