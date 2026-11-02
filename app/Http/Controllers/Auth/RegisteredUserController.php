@@ -20,6 +20,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        // BLOQUEO DE SEGURIDAD: Si no está logueado, lo mandamos al dashboard o login
+        if (!auth()->check()) {
+            abort(403, 'Acceso denegado. El registro público está deshabilitado.');
+        }
+        
         return view('auth.register');
     }
 
@@ -30,6 +35,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // BLOQUEO DE SEGURIDAD: Si no está logueado, lo bloqueamos
+        if (!auth()->check()) {
+            abort(403, 'Acceso denegado. El registro público está deshabilitado.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],

@@ -9,7 +9,14 @@
     <p class="subtexto" style="max-width: 600px; margin: 0 auto 2rem auto;">
         Módulo de compilación analítica contable para la fiscalización de la Municipalidad Provincial de Arequipa.
     </p>
-    <a href="{{ route('dashboard') }}" class="btn-premium" style="max-width: 250px; margin: 0 auto;">
+    
+    <!-- Botón para descargar el PDF Real -->
+    <a href="{{ route('reportes.pdf') }}" class="btn-premium" style="max-width: 350px; margin: 0 auto 1.5rem auto; display: block;">
+        <i class="fa-solid fa-file-pdf"></i> Descargar Reporte PDF Real
+    </a>
+
+    <!-- Botón para volver -->
+    <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="max-width: 250px; margin: 0 auto; display: block;">
         <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
     </a>
 </div>

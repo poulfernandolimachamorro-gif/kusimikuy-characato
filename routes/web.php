@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeneficiarioController;
-use App\Http\Controllers\ProfileController; // <-- Añadido por Breeze
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReporteController; // <-- NUEVO: Importación del controlador PDF
 
 Route::get('/', function () {
-    return redirect()->route('login'); // Ahora inicia en el Login
+    return redirect()->route('login');
 });
 
 // Todas estas rutas requieren estar logueado (Middleware Auth)
@@ -29,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
         return view('reportes.index');
     })->name('reportes.index');
 
+    // Ruta para descargar el PDF real (RF-06)
+    Route::get('/reportes/pdf', [ReporteController::class, 'descargarPDF'])->name('reportes.pdf');
+
     // Ruta para listar beneficiarios (READ)
     Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
     
@@ -38,4 +42,4 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php'; // <-- Archivo de rutas de Breeze
+require __DIR__.'/auth.php';
