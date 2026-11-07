@@ -12,30 +12,66 @@ class BeneficiarioController extends Controller
 {
     protected KardexService $kardexService;
 
-    // Inyección de dependencias para desacoplar la arquitectura en capas
     public function __construct(KardexService $kardexService)
     {
         $this->kardexService = $kardexService;
     }
 
-    // -------------------------------------------------------------
-    // MÓDULO: CRUD BENEFICIARIOS
-    // -------------------------------------------------------------
+    // ==========================================
+    // MÓDULO: CONTROL DE ASISTENCIA (RF-03 y RF-04)
+    // ==========================================
+    public function mostrarAsistencia()
+    {
+        $consumoHoy = DB::table('entregas_raciones')
+            ->where('fecha_entrega', date('Y-m-d'))
+            ->sum(DB::raw('raciones_retiradas * 0.15'));
+        return view('asistencia.index', compact('consumoHoy'));
+    }
 
-    // Listar beneficiarios activos (READ)
+    public function registrarAsistencia(Request $request)
+    {
+        $validated = $request->validate([
+            'codigo_beneficiario' => 'required|string|max:20',
+            'tipo_comensal'       => 'required|in:Socio/Cocinera,Público General',
+            'raciones_retiradas'  => 'required|integer|min:1|max:4'
+        ]);
+
+        $beneficiario = DB::table('beneficiarios')
+            ->where('codigo_beneficiario', $validated['codigo_beneficiario'])
+            ->where('estado', true)
+            ->first();
+
+        if (!$beneficiario) {
+            return redirect()->back()->withErrors(['error' => 'El código de comensal ingresado no figura como Activo en el padrón.']);
+        }
+
+        try {
+            $cuotaCobrada = $this->kardexService->registrarEntrega(
+                $beneficiario,
+                $validated['raciones_retiradas'],
+                $validated['tipo_comensal'],
+                $request->has('exonerado')
+            );
+            return redirect()->back()->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['limite' => $e->getMessage()]);
+        }
+    }
+
+    // ==========================================
+    // MÓDULO: CRUD BENEFICIARIOS (C3)
+    // ==========================================
     public function index()
     {
         $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(10);
         return view('beneficiarios.index', compact('beneficiarios'));
     }
 
-    // Formulario de creación (CREATE)
     public function create()
     {
         return view('beneficiarios.create');
     }
 
-    // Guardar nuevo beneficiario en el padrón (STORE)
     public function store(Request $request)
     {
         $request->validate([
@@ -59,7 +95,6 @@ class BeneficiarioController extends Controller
         return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario creado exitosamente.');
     }
 
-    // Actualizar beneficiario (UPDATE)
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -81,7 +116,6 @@ class BeneficiarioController extends Controller
         }
     }
 
-    // Baja lógica con SoftDeletes (DESTROY)
     public function destroy($id)
     {
         try {
@@ -89,51 +123,6 @@ class BeneficiarioController extends Controller
             return redirect()->back()->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
-        }
-    }
-
-    // -------------------------------------------------------------
-    // MÓDULO: CONTROL DE ASISTENCIA Y RACIONES
-    // -------------------------------------------------------------
-
-    public function mostrarAsistencia()
-    {
-        $consumoHoy = DB::table('entregas_raciones')
-            ->where('fecha_entrega', date('Y-m-d'))
-            ->sum(DB::raw('raciones_retiradas * 0.15'));
-
-        return view('asistencia.index', compact('consumoHoy'));
-    }
-
-    public function registrarAsistencia(Request $request)
-    {
-        $validated = $request->validate([
-            'codigo_beneficiario' => 'required|string|max:20',
-            'tipo_comensal'        => 'required|in:Socio/Cocinera,Público General',
-            'raciones_retiradas'   => 'required|integer|min:1|max:4'
-        ]);
-
-        $beneficiario = DB::table('beneficiarios')
-            ->where('codigo_beneficiario', $validated['codigo_beneficiario'])
-            ->where('estado', true)
-            ->first();
-
-        if (!$beneficiario) {
-            return redirect()->back()->withErrors(['error' => 'El código de comensal ingresado no figura como Activo en el padrón.']);
-        }
-
-        try {
-            $cuotaCobrada = $this->kardexService->registrarEntrega(
-                $beneficiario,
-                $validated['raciones_retiradas'],
-                $validated['tipo_comensal'],
-                $request->has('exonerado')
-            );
-
-            return redirect()->back()->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
-
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['limite' => $e->getMessage()]);
         }
     }
 }
