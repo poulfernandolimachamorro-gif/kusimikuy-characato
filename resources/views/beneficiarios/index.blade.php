@@ -8,22 +8,22 @@
         <h2 style="color: white; font-weight: 800; margin: 0;">
             <i class="fa-solid fa-users text-exito"></i> Padrón Oficial de Comensales
         </h2>
-        
-        <div style="display: flex; gap: 0.75rem; align-items: center;">
-            <!-- Botón Nuevo Beneficiario -->
-            <a href="{{ route('beneficiarios.create') }}" class="btn-premium" style="width: auto; min-height: 40px; padding: 0 1rem; display: inline-flex; align-items: center; text-decoration: none;">
-                <i class="fa-solid fa-user-plus" style="margin-right: 0.4rem;"></i> + Nuevo Beneficiario
-            </a>
-            
-            <!-- Botón Volver -->
-            <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="width: auto; min-height: 40px; padding: 0 1rem; display: inline-flex; align-items: center; text-decoration: none;">
-                <i class="fa-solid fa-arrow-left" style="margin-right: 0.4rem;"></i> Volver
-            </a>
-        </div>
+        <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="width: auto; min-height: 40px; padding: 0 1rem;">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </a>
     </div>
 
-    <div class="caja-cristal" style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; min-width: 800px;">
+    @if(session('success'))
+        <div class="alerta-exito" style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; color: #86efac; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="caja-cristal">
+        <div style="margin-bottom: 1rem;">
+            <a href="{{ route('beneficiarios.create') }}" class="btn-premium" style="width: auto;">+ Nuevo Beneficiario</a>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1;">
             <thead>
                 <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); text-align: left;">
                     <th style="padding: 1rem;">Código Anonimizado</th>
@@ -46,16 +46,16 @@
                             Activo
                         </span>
                     </td>
-                    <td style="padding: 1rem; display: flex; gap: 0.5rem; align-items: center;">
-                        <!-- Botón Editar -->
-                        <button type="button" onclick="alert('Formulario de edición en integración.')" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">
+                    <td style="padding: 1rem; display: flex; gap: 0.5rem;">
+                        <!-- Botón Editar Funcional -->
+                        <a href="{{ route('beneficiarios.edit', $beneficiario->id) }}" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">
                             <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <!-- Botón Eliminar con envío forzado por JS -->
-                        <form action="{{ route('beneficiarios.destroy', $beneficiario->id) }}" method="POST" id="form-delete-{{ $beneficiario->id }}" style="margin: 0;">
+                        </a>
+                        <!-- Botón Eliminar Funcional -->
+                        <form action="{{ route('beneficiarios.destroy', $beneficiario->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="button" onclick="if(confirm('¿Dar de baja lógica a este beneficiario?')) { document.getElementById('form-delete-{{ $beneficiario->id }}').submit(); }" class="btn-premium" style="background: #ef4444 !important; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">
+                            <button type="submit" class="btn-premium" style="background: #ef4444 !important; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;" onclick="return confirm('¿Dar de baja lógica a este beneficiario?')">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </form>

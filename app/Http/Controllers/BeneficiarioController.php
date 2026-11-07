@@ -18,7 +18,7 @@ class BeneficiarioController extends Controller
     }
 
     // ==========================================
-    // MÓDULO: CONTROL DE ASISTENCIA (RF-03 y RF-04)
+    // MÓDULO: CONTROL DE ASISTENCIA
     // ==========================================
     public function mostrarAsistencia()
     {
@@ -36,8 +36,8 @@ class BeneficiarioController extends Controller
             'raciones_retiradas'  => 'required|integer|min:1|max:4'
         ]);
 
-        $beneficiario = DB::table('beneficiarios')
-            ->where('codigo_beneficiario', $validated['codigo_beneficiario'])
+        // FIX DE CLAUDE: Usamos Eloquent para que respete los SoftDeletes
+        $beneficiario = Beneficiario::where('codigo_beneficiario', $validated['codigo_beneficiario'])
             ->where('estado', true)
             ->first();
 
@@ -59,17 +59,16 @@ class BeneficiarioController extends Controller
     }
 
     // ==========================================
-    // MÓDULO: CRUD BENEFICIARIOS (C3)
+    // MÓDULO: CRUD BENEFICIARIOS
     // ==========================================
     public function index()
     {
-        $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(50);
+        // FIX DE CLAUDE: Eloquent filtra deleted_at automáticamente y ordena
+        $beneficiarios = Beneficiario::where('estado', true)
+            ->orderBy('codigo_beneficiario')
+            ->paginate(50);
 
-        // Fuerza al navegador a no guardar la página en caché
-        return response()->view('beneficiarios.index', compact('beneficiarios'))
-            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-            ->header('Pragma', 'no-cache')
-            ->header('Expires', '0');
+        return view('beneficiarios.index', compact('beneficiarios'));
     }
 
     public function create()
@@ -86,19 +85,22 @@ class BeneficiarioController extends Controller
             'raciones_asignadas'   => 'required|integer|min:1|max:4',
         ]);
 
-        DB::table('beneficiarios')->insert([
+        Beneficiario::create([
             'codigo_beneficiario'  => $request->codigo_beneficiario,
             'tipo_comensal'        => $request->tipo_comensal,
             'cantidad_integrantes' => $request->cantidad_integrantes,
             'raciones_asignadas'   => $request->raciones_asignadas,
             'fecha_incorporacion'  => now(),
             'estado'               => true,
-            'created_at'           => now(),
-            'updated_at'           => now(),
         ]);
 
-        // Redirección forzada
-        return response("<script>window.location.href='/beneficiarios';</script>");
+        return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario creado exitosamente.');
+    }
+
+    public function edit($id)
+    {
+        $beneficiario = Beneficiario::findOrFail($id);
+        return view('beneficiarios.edit', compact('beneficiario'));
     }
 
     public function update(Request $request, $id)
@@ -110,13 +112,13 @@ class BeneficiarioController extends Controller
         ]);
 
         try {
-            DB::table('beneficiarios')->where('id', $id)->update([
+            $beneficiario = Beneficiario::findOrFail($id);
+            $beneficiario->update([
                 'codigo_beneficiario' => $request->codigo_beneficiario,
                 'tipo_comensal'       => $request->tipo_comensal,
                 'raciones_asignadas'  => $request->raciones_asignadas,
-                'updated_at'          => now()
             ]);
-            return redirect()->back()->with('success', 'Beneficiario actualizado correctamente.');
+            return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario actualizado correctamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al actualizar: ' . $e->getMessage()]);
         }
@@ -125,7 +127,11 @@ class BeneficiarioController extends Controller
     public function destroy($id)
     {
         try {
-            Beneficiario::findOrFail($id)->delete();
+            // FIX DE CLAUDE: Actualizamos estado y aplicamos SoftDeletes
+            $beneficiario = Beneficiario::findOrFail($id);
+            $beneficiario->update(['estado' => false]);
+            $beneficiario->delete(); 
+
             return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
