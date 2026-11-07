@@ -22,8 +22,8 @@
         </div>
     </div>
 
-    <div class="caja-cristal">
-        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1;">
+    <div class="caja-cristal" style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; color: #cbd5e1; min-width: 800px;">
             <thead>
                 <tr style="border-bottom: 2px solid rgba(255,255,255,0.1); text-align: left;">
                     <th style="padding: 1rem;">Código Anonimizado</th>
