@@ -18,7 +18,7 @@
     }
     @media (min-width: 768px) { 
         .rejilla-acciones-secundarias { 
-            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         } 
     }
     .tarjeta-analitica { background: rgba(17, 24, 39, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; border-radius: 14px !important; padding: 1.5rem; text-align: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -107,13 +107,22 @@
             <i class="fa-solid fa-boxes-stacked fa-lg" style="color: #facc15;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Gestión de Insumos</span>
-                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Registro y control de stock de insumos (CRUD).</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Control de stock del almacén.</span>
+            </div>
+        </a>
+
+        <!-- Registro de Gastos -->
+        <a href="{{ route('gastos.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-cash-register fa-lg" style="color: #f87171;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Registro de Gastos</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Rendición de caja chica.</span>
             </div>
         </a>
 
         <!-- Exportación de Reportes -->
         <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
-            <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
+            <i class="fa-solid fa-file-pdf fa-lg" style="color: #a855f7;"></i>
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Exportar Informe Mensual MPA (RF-06)</span>
                 <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Compilación analítica contable automatizada lista para fiscalización.</span>
