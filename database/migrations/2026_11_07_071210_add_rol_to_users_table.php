@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Middleware;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-
-class CheckRole
+return new class extends Migration
 {
-    public function handle(Request $request, Closure $next, string $rol): Response
+    public function up(): void
     {
-        if (!auth()->check() || auth()->user()->rol !== $rol) {
-            abort(403, 'Acceso denegado. No tienes permisos de ' . $rol);
-        }
-        return $next($request);
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('rol', ['Encargada', 'Voluntario'])->default('Encargada');
+        });
     }
-}
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('rol');
+        });
+    }
+};
