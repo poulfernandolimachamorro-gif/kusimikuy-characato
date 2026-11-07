@@ -63,7 +63,7 @@ class BeneficiarioController extends Controller
     // ==========================================
     public function index()
     {
-        $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(10);
+        $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(50);
         return view('beneficiarios.index', compact('beneficiarios'));
     }
 
