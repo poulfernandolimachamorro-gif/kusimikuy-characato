@@ -1,10 +1,24 @@
 @extends('layouts.app')
+
 @section('title', 'Nuevo Beneficiario')
+
 @section('content')
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto;">
     <h2 style="color: white;">Registrar Nuevo Comensal</h2>
+
+    @if ($errors->any())
+        <div style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+            <strong>¡Ups! Hubo un problema:</strong>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('beneficiarios.store') }}" method="POST">
-    @csrf
+        @csrf
         <label style="color: #cbd5e1;">Código Anonimizado:</label>
         <input type="text" name="codigo_beneficiario" class="input-asistencia-premium" required placeholder="Ej: BEN-CHA-005">
         

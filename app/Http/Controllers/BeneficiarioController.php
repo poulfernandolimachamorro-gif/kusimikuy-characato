@@ -74,7 +74,6 @@ class BeneficiarioController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'codigo_beneficiario'  => 'required|string|max:20|unique:beneficiarios,codigo_beneficiario',
             'tipo_comensal'        => 'required|in:Socio/Cocinera,Público General',
