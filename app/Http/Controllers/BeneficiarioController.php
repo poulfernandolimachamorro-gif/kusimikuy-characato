@@ -122,10 +122,9 @@ class BeneficiarioController extends Controller
         try {
             Beneficiario::findOrFail($id)->delete();
 
-            // Redirección forzada para evitar la caché del navegador
-            return response("<script>window.location.href='/beneficiarios';</script>");
+            return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
-            return response("<script>alert('Error al eliminar'); window.location.href='/beneficiarios';</script>");
+            return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
         }
     }
 }
