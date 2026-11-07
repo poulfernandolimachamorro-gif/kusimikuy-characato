@@ -121,7 +121,7 @@ class BeneficiarioController extends Controller
         try {
             Beneficiario::findOrFail($id)->delete();
 
-            return redirect()->back()->with('success', 'Beneficiario dado de baja lógicamente.');
+            return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
         }
