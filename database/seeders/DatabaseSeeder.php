@@ -29,6 +29,13 @@ class DatabaseSeeder extends Seeder
             ['codigo' => 'BEN-CHA-002', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 2],
             ['codigo' => 'BEN-CHA-003', 'tipo' => 'Público General', 'integrantes' => 5, 'raciones' => 4],
             ['codigo' => 'BEN-CHA-004', 'tipo' => 'Socio/Cocinera', 'integrantes' => 3, 'raciones' => 2],
+            ['codigo' => 'BEN-CHA-005', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-006', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-007', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-008', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-009', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-010', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
+            ['codigo' => 'BEN-CHA-011', 'tipo' => 'Público General', 'integrantes' => 2, 'raciones' => 4],
         ];
 
         foreach ($comensales as $data) {
