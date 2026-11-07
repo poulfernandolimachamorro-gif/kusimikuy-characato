@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/beneficiarios', [BeneficiarioController::class, 'store'])->name('beneficiarios.store'); // <-- ESTA ES LA CLAVE
     Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
     Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
+    Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');
     
     // CRUD Insumos
     Route::resource('insumos', InsumoController::class);
