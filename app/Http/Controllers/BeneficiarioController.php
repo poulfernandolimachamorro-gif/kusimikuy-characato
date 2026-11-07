@@ -64,7 +64,12 @@ class BeneficiarioController extends Controller
     public function index()
     {
         $beneficiarios = DB::table('beneficiarios')->where('estado', true)->paginate(50);
-        return view('beneficiarios.index', compact('beneficiarios'));
+
+        // Fuerza al navegador a no guardar la página en caché
+        return response()->view('beneficiarios.index', compact('beneficiarios'))
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 
     public function create()
@@ -121,7 +126,6 @@ class BeneficiarioController extends Controller
     {
         try {
             Beneficiario::findOrFail($id)->delete();
-
             return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
