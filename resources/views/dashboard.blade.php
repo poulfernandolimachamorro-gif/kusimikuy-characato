@@ -29,7 +29,7 @@
     <div style="margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; width: 100%;">
         <div style="max-width: 100%;">
             <h2 style="font-size: 1.8rem; font-weight: 800; margin: 0 0 0.35rem 0; background: linear-gradient(to right, #ffffff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; line-height: 1.2;">
-                ¡Bienvenida de vuelta, Sra. Félipe!
+                ¡Bienvenida de vuelta, Sra. Felipe!
             </h2>
             <p class="subtexto" style="margin: 0; font-size: 0.9rem; line-height: 1.4;">
                 <i class="fa-solid fa-sliders text-exito"></i> Consola centralizada de micro-gestión para el Comedor Popular Niño Jesús.
@@ -102,7 +102,7 @@
             </div>
         </a>
 
-        <!-- Gestión de Insumos (CRUD) -->
+        <!-- Gestión de Insumos -->
         <a href="{{ route('insumos.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-boxes-stacked fa-lg" style="color: #facc15;"></i>
             <div style="text-align: left;">
@@ -117,6 +117,33 @@
             <div style="text-align: left;">
                 <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Registro de Gastos</span>
                 <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Rendición de caja chica.</span>
+            </div>
+        </a>
+
+        <!-- Gestión de Lotes -->
+        <a href="{{ route('lotes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-boxes-packing fa-lg" style="color: #facc15;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Gestión de Lotes</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Control de calidad del arroz.</span>
+            </div>
+        </a>
+
+        <!-- Menús y Recetas -->
+        <a href="{{ route('menus.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-book-open fa-lg" style="color: #22c55e;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Menús y Recetas</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Dosificación de insumos por plato.</span>
+            </div>
+        </a>
+
+        <!-- Documentos Legales -->
+        <a href="{{ route('documentos.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-file-contract fa-lg" style="color: #a855f7;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Documentos Legales</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Alertas de caducidad (2 años).</span>
             </div>
         </a>
 

@@ -6,6 +6,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\InsumoController;
 use App\Http\Controllers\GastoController;
+use App\Http\Controllers\LoteController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\DocumentoController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -32,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('reportes.index');
     Route::get('/reportes/pdf', [ReporteController::class, 'descargarPDF'])->name('reportes.pdf');
 
-    // Rutas protegidas para Encargada (CRUD Beneficiarios, Insumos y Gastos)
+    // Rutas protegidas para Encargada (CRUD Beneficiarios, Insumos, Gastos, Lotes, Menús y Documentos)
     Route::middleware(['rol:Encargada'])->group(function () {
         Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
         Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');
@@ -43,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
         
         Route::resource('insumos', InsumoController::class);
         Route::resource('gastos', GastoController::class);
+        Route::resource('lotes', LoteController::class);
+        Route::resource('menus', MenuController::class);
+        Route::resource('documentos', DocumentoController::class);
     });
 
     // Rutas de perfil Breeze
