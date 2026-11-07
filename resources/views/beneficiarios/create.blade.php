@@ -4,7 +4,7 @@
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto;">
     <h2 style="color: white;">Registrar Nuevo Comensal</h2>
     <form action="{{ route('beneficiarios.store') }}" method="POST">
-        @csrf
+    @csrf
         <label style="color: #cbd5e1;">Código Anonimizado:</label>
         <input type="text" name="codigo_beneficiario" class="input-asistencia-premium" required placeholder="Ej: BEN-CHA-005">
         
