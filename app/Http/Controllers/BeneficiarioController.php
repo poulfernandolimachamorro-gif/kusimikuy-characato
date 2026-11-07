@@ -92,7 +92,8 @@ class BeneficiarioController extends Controller
             'updated_at'           => now(),
         ]);
 
-        return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario creado exitosamente.');
+        // PRUEBA DEFINITIVA: Mostrar todos los registros actuales en la BD
+        dd(DB::table('beneficiarios')->get());
     }
 
     public function update(Request $request, $id)
@@ -121,7 +122,8 @@ class BeneficiarioController extends Controller
         try {
             Beneficiario::findOrFail($id)->delete();
 
-            return redirect()->back()->with('success', 'Beneficiario dado de baja lógicamente.');
+            // PRUEBA DEFINITIVA: Mostrar todos los registros actuales en la BD
+            dd(DB::table('beneficiarios')->get());
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al eliminar: ' . $e->getMessage()]);
         }
