@@ -38,16 +38,16 @@ Route::middleware(['auth'])->group(function () {
     // Rutas protegidas exclusivamente para el rol 'Encargada'
     // -------------------------------------------------------------
     Route::middleware(['rol:Encargada'])->group(function () {
-    // CRUD Beneficiarios
-    Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
-    Route::post('/beneficiarios', [BeneficiarioController::class, 'store'])->name('beneficiarios.store'); // <-- ESTA ES LA CLAVE
-    Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
-    Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
-    Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');
-    
-    // CRUD Insumos
-    Route::resource('insumos', InsumoController::class);
-});
+        // CRUD de Beneficiarios
+        Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
+        Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');
+        Route::post('/beneficiarios', [BeneficiarioController::class, 'store'])->name('beneficiarios.store'); // <-- ESTA FALTA
+        Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
+        Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
+        
+        // CRUD de Insumos
+        Route::resource('insumos', InsumoController::class);
+    });
 
     // Rutas de perfil predeterminadas por Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
