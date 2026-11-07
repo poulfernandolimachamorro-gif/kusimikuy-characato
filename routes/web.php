@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeneficiarioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\InsumoController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -35,11 +36,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/reportes/pdf', [ReporteController::class, 'descargarPDF'])->name('reportes.pdf');
 
-    // Rutas de Beneficiarios (CRUD)
-    Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
-    Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
-    Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
-    
+    // -------------------------------------------------------------
+    // Rutas protegidas exclusivamente para el rol 'Encargada'
+    // -------------------------------------------------------------
+    Route::middleware(['rol:Encargada'])->group(function () {
+        // Rutas de Beneficiarios (CRUD)
+        Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
+        Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
+        Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
+        
+        // Si utilizas el recurso de insumos completo:
+        Route::resource('insumos', InsumoController::class);
+    });
+
     // Rutas de perfil que trae Breeze por defecto
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

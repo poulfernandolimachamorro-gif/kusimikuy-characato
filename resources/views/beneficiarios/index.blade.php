@@ -8,9 +8,18 @@
         <h2 style="color: white; font-weight: 800; margin: 0;">
             <i class="fa-solid fa-users text-exito"></i> Padrón Oficial de Comensales
         </h2>
-        <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="width: auto; min-height: 40px; padding: 0 1rem;">
-            <i class="fa-solid fa-arrow-left"></i> Volver
-        </a>
+        
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <!-- Botón Nuevo Beneficiario -->
+            <a href="{{ route('beneficiarios.create') }}" class="btn-premium" style="width: auto; min-height: 40px; padding: 0 1rem; display: inline-flex; align-items: center; text-decoration: none;">
+                <i class="fa-solid fa-user-plus" style="margin-right: 0.4rem;"></i> + Nuevo Beneficiario
+            </a>
+            
+            <!-- Botón Volver -->
+            <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="width: auto; min-height: 40px; padding: 0 1rem; display: inline-flex; align-items: center; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left" style="margin-right: 0.4rem;"></i> Volver
+            </a>
+        </div>
     </div>
 
     <div class="caja-cristal">
@@ -22,7 +31,7 @@
                     <th style="padding: 1rem;">Integrantes</th>
                     <th style="padding: 1rem;">Raciones</th>
                     <th style="padding: 1rem;">Estado</th>
-                    <th style="padding: 1rem;">Acciones</th> <!-- NUEVA COLUMNA -->
+                    <th style="padding: 1rem;">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +46,6 @@
                             Activo
                         </span>
                     </td>
-                    <!-- NUEVA CELDA DE ACCIONES -->
                     <td style="padding: 1rem; display: flex; gap: 0.5rem;">
                         <!-- Botón Editar (Visual) -->
                         <button onclick="alert('Formulario de edición en integración.')" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">

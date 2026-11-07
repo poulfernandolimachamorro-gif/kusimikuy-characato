@@ -14,11 +14,11 @@
     .rejilla-acciones-secundarias { 
         display: grid !important; 
         grid-template-columns: 1fr !important; 
-        gap: 1.5rem !important; /* <--- Aumentamos el espacio a 1.5rem */
+        gap: 1.5rem !important;
     }
     @media (min-width: 768px) { 
         .rejilla-acciones-secundarias { 
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* <--- ESTO ARREGLA EL DESBORDE */
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         } 
     }
     .tarjeta-analitica { background: rgba(17, 24, 39, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; border-radius: 14px !important; padding: 1.5rem; text-align: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -93,6 +93,7 @@
     </a>
 
     <div class="rejilla-acciones-secundarias">
+        <!-- Control de Almacén e Inventarios -->
         <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
             <div style="text-align: left;">
@@ -101,6 +102,16 @@
             </div>
         </a>
 
+        <!-- Gestión de Insumos (CRUD) -->
+        <a href="{{ route('insumos.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-boxes-stacked fa-lg" style="color: #facc15;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Gestión de Insumos</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Registro y control de stock de insumos (CRUD).</span>
+            </div>
+        </a>
+
+        <!-- Exportación de Reportes -->
         <a href="{{ route('reportes.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-file-pdf fa-lg" style="color: #f87171;"></i>
             <div style="text-align: left;">
