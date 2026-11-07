@@ -46,13 +46,13 @@
                             Activo
                         </span>
                     </td>
-                    <td style="padding: 1rem; display: flex; gap: 0.5rem;">
+                    <td style="padding: 1rem; display: flex; gap: 0.5rem; align-items: center;">
                         <!-- Botón Editar (Visual) -->
-                        <button onclick="alert('Formulario de edición en integración.')" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">
+                        <button type="button" onclick="alert('Formulario de edición en integración.')" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;">
                             <i class="fa-solid fa-pen"></i>
                         </button>
                         <!-- Botón Eliminar (Baja lógica funcional) -->
-                        <form action="{{ route('beneficiarios.destroy', $beneficiario->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('beneficiarios.destroy', $beneficiario->id) }}" method="POST" style="margin: 0;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-premium" style="background: #ef4444 !important; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;" onclick="return confirm('¿Dar de baja lógica a este beneficiario?')">
