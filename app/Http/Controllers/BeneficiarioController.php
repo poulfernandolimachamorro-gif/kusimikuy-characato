@@ -92,8 +92,6 @@ class BeneficiarioController extends Controller
             'updated_at'           => now(),
         ]);
 
-        die('¡El código llegó hasta aquí!');
-
         return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario creado exitosamente.');
     }
 
@@ -122,8 +120,6 @@ class BeneficiarioController extends Controller
     {
         try {
             Beneficiario::findOrFail($id)->delete();
-            
-            die('¡El código llegó a borrar!');
 
             return redirect()->back()->with('success', 'Beneficiario dado de baja lógicamente.');
         } catch (Exception $e) {
