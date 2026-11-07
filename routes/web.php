@@ -17,11 +17,9 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // RUTA CORREGIDA: Llama al controlador para calcular el arroz
+    // RUTA ASISTENCIA: Vista y Registro diario
     Route::get('/asistencia', [BeneficiarioController::class, 'mostrarAsistencia'])->name('asistencia.index');
-
-    // Ruta para guardar la asistencia (POST)
-    Route::post('/asistencia/registrar', [BeneficiarioController::class, 'store'])->name('asistencia.store');
+    Route::post('/asistencia/registrar', [BeneficiarioController::class, 'registrarAsistencia'])->name('asistencia.store');
 
     // Ruta del Kardex con datos reales
     Route::get('/kardex', function () {
@@ -40,16 +38,18 @@ Route::middleware(['auth'])->group(function () {
     // Rutas protegidas exclusivamente para el rol 'Encargada'
     // -------------------------------------------------------------
     Route::middleware(['rol:Encargada'])->group(function () {
-        // Rutas de Beneficiarios (CRUD)
+        // CRUD de Beneficiarios
         Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
+        Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');
+        Route::post('/beneficiarios', [BeneficiarioController::class, 'store'])->name('beneficiarios.store');
         Route::put('/beneficiarios/{id}', [BeneficiarioController::class, 'update'])->name('beneficiarios.update');
         Route::delete('/beneficiarios/{id}', [BeneficiarioController::class, 'destroy'])->name('beneficiarios.destroy');
         
-        // Si utilizas el recurso de insumos completo:
+        // Recurso completo de insumos
         Route::resource('insumos', InsumoController::class);
     });
 
-    // Rutas de perfil que trae Breeze por defecto
+    // Rutas de perfil predeterminadas por Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
