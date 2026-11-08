@@ -41,20 +41,28 @@
         </div>
     </div>
 
+@if($lotesAlerta->isNotEmpty() || $documentosAlerta > 0)
     <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3); width: 100%; max-width: 100%; box-sizing: border-box;">
         <summary style="color: #f87171; font-weight: 700; padding: 1.1rem; cursor: pointer; user-select: none; font-size: 1.05rem;">
             <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 5px #f87171);"></i> 
-            ALERTA OPERACIONAL: Evaluación de Calidad de Insumos (Queja de Cocina)
+            ALERTAS OPERACIONALES: Lotes de Insumos y Documentos Legales
         </summary>
         <div style="padding: 0 1.1rem 1.1rem 1.1rem; border-top: 1px solid rgba(239, 68, 68, 0.08); padding-top: 1rem; margin-top: 0.2rem;">
+            @foreach($lotesAlerta as $lote)
             <p style="margin: 0 0 0.5rem 0; font-size: 0.95rem;">
-                <strong>Lote Fiscalizado por la MPA:</strong> <code style="background: #241818; color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); padding: 0.15rem 0.4rem; border-radius: 4px;">L-ARR-02</code> — Arroz Común Municipal.
+                <strong>Lote:</strong> <code style="background: #241818; color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); padding: 0.15rem 0.4rem; border-radius: 4px;">{{ $lote->codigo_lote }}</code> — {{ $lote->nombre_insumo }}
+                ({{ $lote->estado_calidad }}@if($lote->fecha_vencimiento), vence {{ $lote->fecha_vencimiento }}@endif)
             </p>
+            @endforeach
+            @if($documentosAlerta > 0)
             <p style="margin: 0; font-size: 0.9rem; line-height: 1.45rem;" class="subtexto">
-                <strong>Incidencia de Campo (Sra. María):</strong> Grano con alta tasa de humedad ("arroz verde") propenso a volverse mazamorra rápido. Se exige a las voluntarias de cocina regular el volumen de agua durante la ebullición para resguardar las porciones de los 40 comensales.
+                <strong>Documentos legales:</strong> {{ $documentosAlerta }} vencido(s) o por vencer en los próximos 60 días.
+                <a href="{{ route('documentos.index') }}" style="color: #93c5fd;">Revisar</a>
             </p>
+            @endif
         </div>
     </details>
+@endif
 
     <h3 style="font-size: 0.95rem; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; font-weight: 700;">
         <i class="fa-solid fa-chart-line"></i> Estado Operativo del Comedor
@@ -63,19 +71,19 @@
     <section class="rejilla-metricas" style="margin-bottom: 3rem;">
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-users"></i> Padrón Oficial</p>
-            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #ffffff;">80 <span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">Familias</span></h2>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #ffffff;">{{ $padron }} <span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">Familias</span></h2>
         </div>
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-utensils text-exito"></i> Raciones Marcadas</p>
-            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #4ade80; filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.25));">40 <span style="font-size: 0.9rem; color: #15803d; font-weight: 600;">Hoy</span></h2>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #4ade80; filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.25));">{{ $racionesHoy }} <span style="font-size: 0.9rem; color: #15803d; font-weight: 600;">Hoy</span></h2>
         </div>
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-boxes-stacked" style="color: #3b82f6;"></i> Insumos Almacén</p>
-            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #3b82f6;">6 <span style="font-size: 0.9rem; color: #1d4ed8; font-weight: 600;">Tipos</span></h2>
+            <h2 style="margin: 0; font-size: 2rem; font-weight: 800; color: #3b82f6;">{{ $tiposInsumo }} <span style="font-size: 0.9rem; color: #1d4ed8; font-weight: 600;">Tipos</span></h2>
         </div>
         <div class="tarjeta-analitica">
             <p class="subtexto" style="margin: 0 0 0.5rem 0; font-size: 0.85rem;"><i class="fa-solid fa-wallet"></i> Caja Chica</p>
-            <h2 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: #ffffff;">S/. 150<span style="font-size: 0.9rem; color: #64748b; font-weight: 400;">.00</span></h2>
+            <h2 style="margin: 0; font-size: 1.8rem; font-weight: 800; color: #ffffff;">S/. {{ number_format($caja, 2) }}</h2>
         </div>
     </section>
 

@@ -9,13 +9,14 @@ use App\Http\Controllers\GastoController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [InsumoController::class, 'renderDashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Módulo Asistencia y Marcado Diario
     Route::get('/asistencia', [BeneficiarioController::class, 'mostrarAsistencia'])->name('asistencia.index');
@@ -27,14 +28,14 @@ Route::middleware(['auth'])->group(function () {
         return view('kardex.index', compact('insumos'));
     })->name('kardex.index');
 
-    // Módulo de Reportes Contables
-    Route::get('/reportes', function () {
-        return view('reportes.index');
-    })->name('reportes.index');
-    Route::get('/reportes/pdf', [ReporteController::class, 'descargarPDF'])->name('reportes.pdf');
-
     // Rutas protegidas para Rol Encargada (Matriz de Control RBAC)
     Route::middleware(['rol:Encargada'])->group(function () {
+        // Módulo de Reportes Contables (flujo de caja: bloqueado para el rol Voluntario)
+        Route::get('/reportes', function () {
+            return view('reportes.index');
+        })->name('reportes.index');
+        Route::get('/reportes/pdf', [ReporteController::class, 'descargarPDF'])->name('reportes.pdf');
+
         // CRUD Completo del Padrón de Beneficiarios
         Route::get('/beneficiarios', [BeneficiarioController::class, 'index'])->name('beneficiarios.index');
         Route::get('/beneficiarios/create', [BeneficiarioController::class, 'create'])->name('beneficiarios.create');

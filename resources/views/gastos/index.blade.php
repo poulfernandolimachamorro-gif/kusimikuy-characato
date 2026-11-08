@@ -31,6 +31,7 @@
                 <td style="padding: 1rem; font-weight: bold; color: #f87171;">S/. {{ number_format($gasto->monto, 2) }}</td>
                 <td style="padding: 1rem;">{{ $gasto->fecha_gasto }}</td>
                 <td style="padding: 1rem;">
+                    <a href="{{ route('gastos.edit', $gasto->id) }}" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto; display: inline-flex;"><i class="fa-solid fa-pen"></i></a>
                     <form action="{{ route('gastos.destroy', $gasto->id) }}" method="POST" style="display:inline;">
                         @csrf 
                         @method('DELETE')

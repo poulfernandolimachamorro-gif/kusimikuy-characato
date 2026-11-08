@@ -36,7 +36,7 @@ class BeneficiarioController extends Controller
             'raciones_retiradas'  => 'required|integer|min:1|max:4'
         ]);
 
-        // FIX DE CLAUDE: Usamos Eloquent para que respete los SoftDeletes
+        // Eloquent respeta SoftDeletes: un beneficiario dado de baja no puede registrar asistencia
         $beneficiario = Beneficiario::where('codigo_beneficiario', $validated['codigo_beneficiario'])
             ->where('estado', true)
             ->first();
@@ -63,7 +63,7 @@ class BeneficiarioController extends Controller
     // ==========================================
     public function index()
     {
-        // FIX DE CLAUDE: Eloquent filtra deleted_at automáticamente y ordena
+        // Eloquent excluye automáticamente los registros con deleted_at (baja lógica)
         $beneficiarios = Beneficiario::where('estado', true)
             ->orderBy('codigo_beneficiario')
             ->paginate(50);
@@ -127,7 +127,7 @@ class BeneficiarioController extends Controller
     public function destroy($id)
     {
         try {
-            // FIX DE CLAUDE: Actualizamos estado y aplicamos SoftDeletes
+            // Baja lógica: se desactiva el estado y se registra deleted_at (SoftDeletes)
             $beneficiario = Beneficiario::findOrFail($id);
             $beneficiario->update(['estado' => false]);
             $beneficiario->delete(); 

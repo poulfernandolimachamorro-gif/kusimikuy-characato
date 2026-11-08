@@ -23,10 +23,13 @@
                 <td style="padding: 1rem;">{{ $insumo->stock_actual }}</td>
                 <td style="padding: 1rem;">{{ $insumo->unidad_medida }}</td>
                 <td style="padding: 1rem;">
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <a href="{{ route('insumos.edit', $insumo->id) }}" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;"><i class="fa-solid fa-pen"></i></a>
                     <form action="{{ route('insumos.destroy', $insumo->id) }}" method="POST">
                         @csrf @method('DELETE')
                         <button type="submit" class="btn-premium" style="background: #ef4444; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;" onclick="return confirm('¿Eliminar?')"><i class="fa-solid fa-trash"></i></button>
                     </form>
+                    </div>
                 </td>
             </tr>
             @endforeach

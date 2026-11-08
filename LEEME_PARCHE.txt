@@ -1,0 +1,25 @@
+PARCHE KUSIMIKUY - COMO APLICARLO
+=================================
+1) Copia el contenido de esta carpeta SOBRE la raiz de tu proyecto (acepta reemplazar archivos).
+   Archivos nuevos : app/Http/Controllers/DashboardController.php
+                     resources/views/gastos/edit.blade.php
+   Reemplazados    : README.md, routes/web.php, app/Models/User.php,
+                     app/Http/Controllers/{Beneficiario,Documento,Insumo}Controller.php,
+                     database/seeders/DatabaseSeeder.php,
+                     resources/views/{dashboard,gastos/index,insumos/index,documentos/index}.blade.php
+
+2) Borra estos archivos del proyecto (no forman parte de la app):
+   AGENTS.md  CLAUDE.md  .phpunit.result.cache
+
+3) Limpia y recrea la base:
+   php artisan view:clear
+   php artisan route:clear
+   php artisan migrate:fresh --seed
+
+4) Verifica:
+   php artisan test
+   grep -rn "CLAUDE" app routes resources database tests     (no debe devolver nada)
+   ls AGENTS.md CLAUDE.md                                     (debe decir "No such file")
+
+5) Genera el ZIP de entrega (sin vendor, node_modules, .env ni .git):
+   zip -r C2_PW_GrupoXX_Codigo.zip . -x "vendor/*" "node_modules/*" ".env" ".git/*" "storage/logs/*" "database/*.sqlite"

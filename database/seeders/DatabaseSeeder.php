@@ -14,12 +14,22 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Crear el usuario administrador (A prueba de duplicados)
+        // 1. Usuarios demo, uno por rol (a prueba de duplicados)
         $user = User::firstOrCreate(
             ['email' => 'felipe.characato@gmail.com'],
             [
                 'name'     => 'Félipe Comedor',
                 'password' => Hash::make('Characato2026*'),
+                'rol'      => 'Encargada',
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'voluntario.characato@gmail.com'],
+            [
+                'name'     => 'Voluntaria de Cocina',
+                'password' => Hash::make('Voluntario2026*'),
+                'rol'      => 'Voluntario',
             ]
         );
 

@@ -26,7 +26,7 @@ class InsumoController extends Controller
             'nombre_insumo' => $request->nombre_insumo,
             'stock_actual' => $request->stock_actual,
             'stock_minimo_alerta' => 10,
-            'limite_consumo_diario' => 6,
+            'limite_consumo_diario' => null, // el tope de 6 kg aplica solo al Arroz Común (ver DatabaseSeeder)
             'unidad_medida' => $request->unidad_medida,
             'created_at' => now(),
             'updated_at' => now(),
@@ -58,9 +58,5 @@ class InsumoController extends Controller
     public function destroy($id) {
         DB::table('insumos')->where('id', $id)->delete();
         return redirect()->route('insumos.index')->with('success', 'Insumo eliminado.');
-    }
-
-    public function renderDashboard() {
-        return view('dashboard');
     }
 }

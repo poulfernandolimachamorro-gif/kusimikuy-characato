@@ -21,8 +21,8 @@ Siga de manera secuencial los comandos descritos a continuación en su terminal 
 
 ### Paso 1: Clonación del Repositorio Oficial
 ```bash
-git clone https://github.com
-cd poulfernandolimachamorro-gif-kusimikuy-characato
+git clone https://github.com/poulfernandolimachamorro-gif/kusimikuy-characato.git
+cd kusimikuy-characato
 ```
 
 ### Paso 2: Instalación de Dependencias del Backend
