@@ -1,25 +1,25 @@
 <x-guest-layout>
-    <!-- Session Status -->
+    <!-- Estado de la sesión -->
     <x-auth-session-status class="mb-4" :status="session('status')" style="color: #4ade80; margin-bottom: 1rem;" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
+        <!-- Correo electrónico -->
         <div style="margin-bottom: 1.5rem;">
             <label for="email">Correo Electrónico</label>
             <input id="email" class="input-dark" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="admin@kusimikuy.com">
             <x-input-error :messages="$errors->get('email')" class="mt-2" style="color: #f87171; font-size: 0.85rem; margin-top: 0.5rem;" />
         </div>
 
-        <!-- Password -->
+        <!-- Contraseña -->
         <div style="margin-bottom: 1.5rem;">
             <label for="password">Contraseña</label>
             <input id="password" class="input-dark" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
             <x-input-error :messages="$errors->get('password')" class="mt-2" style="color: #f87171; font-size: 0.85rem; margin-top: 0.5rem;" />
         </div>
 
-        <!-- Remember Me -->
+        <!-- Recordarme -->
         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
             <input id="remember_me" type="checkbox" name="remember" style="width: 16px; height: 16px; cursor: pointer;">
             <label for="remember_me" style="margin: 0; font-weight: 400; color: #94a3b8; cursor: pointer;">Recordarme</label>

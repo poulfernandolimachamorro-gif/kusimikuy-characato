@@ -4,12 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Filesystem Disk
+    | Disco de archivos por defecto
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default filesystem disk that should be used
-    | by the framework. The "local" disk, as well as a variety of cloud
-    | based disks are available to your application for file storage.
+    | Aquí se indica el disco de archivos que usa el framework por defecto.
+    | El disco "local" y varios discos en la nube están disponibles para que
+    | tu aplicación guarde archivos.
     |
     */
 
@@ -17,14 +17,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Filesystem Disks
+    | Discos de archivos
     |--------------------------------------------------------------------------
     |
-    | Below you may configure as many filesystem disks as necessary, and you
-    | may even configure multiple disks for the same driver. Examples for
-    | most supported storage drivers are configured here for reference.
+    | Aquí puedes configurar todos los discos que necesites, incluso varios
+    | para el mismo driver. Se incluyen ejemplos de la mayoría de los
+    | drivers soportados como referencia.
     |
-    | Supported drivers: "local", "ftp", "sftp", "s3"
+    | Drivers soportados: "local", "ftp", "sftp", "s3"
     |
     */
 
@@ -64,12 +64,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Symbolic Links
+    | Enlaces simbólicos
     |--------------------------------------------------------------------------
     |
-    | Here you may configure the symbolic links that will be created when the
-    | `storage:link` Artisan command is executed. The array keys should be
-    | the locations of the links and the values should be their targets.
+    | Aquí se configuran los enlaces simbólicos que se crean al ejecutar el
+    | comando de Artisan `storage:link`. Las claves del arreglo son las
+    | ubicaciones de los enlaces y los valores son sus destinos.
     |
     */
 

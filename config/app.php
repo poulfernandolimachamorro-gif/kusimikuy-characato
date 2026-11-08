@@ -4,12 +4,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | Nombre de la aplicación
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application, which will be used when the
-    | framework needs to place the application's name in a notification or
-    | other UI elements where an application name needs to be displayed.
+    | Este valor es el nombre de tu aplicación. Laravel lo usa cuando necesita
+    | mostrarlo en una notificación o en otros elementos de la interfaz.
     |
     */
 
@@ -17,12 +16,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Environment
+    | Entorno de la aplicación
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services the application utilizes. Set this in your ".env" file.
+    | Este valor indica en qué entorno se está ejecutando la aplicación
+    | (local, producción, etc.) y puede cambiar cómo se configuran algunos
+    | servicios. Se define en el archivo ".env".
     |
     */
 
@@ -30,12 +29,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Debug Mode
+    | Modo de depuración
     |--------------------------------------------------------------------------
     |
-    | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
+    | Con el modo debug activado, cada error muestra un mensaje detallado con
+    | su traza. Si está desactivado, solo se muestra una página de error
+    | genérica.
     |
     */
 
@@ -43,12 +42,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application URL
+    | URL de la aplicación
     |--------------------------------------------------------------------------
     |
-    | This URL is used by the console to properly generate URLs when using
-    | the Artisan command line tool. You should set this to the root of
-    | the application so that it's available within Artisan commands.
+    | Artisan usa esta URL para generar enlaces correctos desde la consola.
+    | Debe apuntar a la raíz de tu aplicación.
     |
     */
 
@@ -56,12 +54,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Timezone
+    | Zona horaria de la aplicación
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. The timezone
-    | is set to "UTC" by default as it is suitable for most use cases.
+    | Aquí se define la zona horaria por defecto que usan las funciones de
+    | fecha y hora de PHP. Por defecto es "UTC", que sirve para la mayoría
+    | de los casos.
     |
     */
 
@@ -69,12 +67,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Locale Configuration
+    | Configuración de idioma
     |--------------------------------------------------------------------------
     |
-    | The application locale determines the default locale that will be used
-    | by Laravel's translation / localization methods. This option can be
-    | set to any locale for which you plan to have translation strings.
+    | El idioma (locale) define qué idioma usan por defecto los métodos de
+    | traducción de Laravel. Puede ser cualquier idioma para el que tengas
+    | textos traducidos.
     |
     */
 
@@ -86,12 +84,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Encryption Key
+    | Clave de cifrado
     |--------------------------------------------------------------------------
     |
-    | This key is utilized by Laravel's encryption services and should be set
-    | to a random, 32 character string to ensure that all encrypted values
-    | are secure. You should do this prior to deploying the application.
+    | Los servicios de cifrado de Laravel usan esta clave, que debe ser una
+    | cadena aleatoria de 32 caracteres para que los datos cifrados estén
+    | seguros. Defínela antes de desplegar la aplicación.
     |
     */
 
@@ -107,14 +105,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Maintenance Mode Driver
+    | Driver del modo mantenimiento
     |--------------------------------------------------------------------------
     |
-    | These configuration options determine the driver used to determine and
-    | manage Laravel's "maintenance mode" status. The "cache" driver will
-    | allow maintenance mode to be controlled across multiple machines.
+    | Estas opciones definen el driver que controla el estado de "modo
+    | mantenimiento". El driver "cache" permite controlarlo desde varias
+    | máquinas a la vez.
     |
-    | Supported drivers: "file", "cache", "array"
+    | Drivers disponibles: "file", "cache", "array"
     |
     */
 
