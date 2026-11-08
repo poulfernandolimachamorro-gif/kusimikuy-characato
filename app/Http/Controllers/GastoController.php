@@ -33,6 +33,27 @@ class GastoController extends Controller
         ]);
         return redirect()->route('gastos.index')->with('success', 'Gasto registrado.');
     }
+
+    public function edit($id) {
+        $gasto = DB::table('gastos')->where('id', $id)->first();
+        if (!$gasto) abort(404);
+        return view('gastos.edit', compact('gasto'));
+    }
+
+    public function update(Request $request, $id) {
+        $request->validate([
+            'concepto' => 'required|string|max:200',
+            'monto' => 'required|numeric|min:0.01',
+            'fecha_gasto' => 'required|date',
+        ]);
+        DB::table('gastos')->where('id', $id)->update([
+            'concepto' => $request->concepto,
+            'monto' => $request->monto,
+            'fecha_gasto' => $request->fecha_gasto,
+            'updated_at' => now(),
+        ]);
+        return redirect()->route('gastos.index')->with('success', 'Gasto actualizado correctamente.');
+    }
     
     public function destroy($id) {
         DB::table('gastos')->where('id', $id)->delete();
