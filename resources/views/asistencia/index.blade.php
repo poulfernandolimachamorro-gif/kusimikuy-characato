@@ -3,7 +3,7 @@
 @section('title', 'Asistencia Diaria')
 
 @section('content')
-<!-- Bloque CSS Dedicado: Evita cruces lógicos y gestiona las animaciones de cristal -->
+<!-- Estilos propios del módulo: animaciones y efecto de cristal -->
 <style>
     @keyframes moduloSlideIn {
         from { opacity: 0; transform: translateY(15px); }
@@ -14,7 +14,7 @@
         animation: moduloSlideIn 0.40s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    /* Caja con Efecto de Cristal Fluido (Glassmorphism) */
+    /* Tarjeta con efecto de cristal (glassmorphism) */
     .caja-cristal {
         background: rgba(18, 24, 38, 0.65) !important;
         backdrop-filter: blur(16px);
@@ -31,7 +31,7 @@
         box-shadow: 0 10px 40px rgba(26, 117, 255, 0.08);
     }
 
-    /* Estructura responsiva blindada */
+    /* Diseño adaptable: columnas en pantallas grandes, apiladas en móviles */
     .flex-asistencia {
         display: flex;
         flex-direction: column;
@@ -105,7 +105,7 @@
         to { opacity: 1; }
     }
 
-    /* Estilos para las alertas de validación */
+    /* Estilos de las alertas de error y éxito */
     .alerta-error {
         background: rgba(239, 68, 68, 0.1);
         border-left: 4px solid #ef4444;
@@ -128,7 +128,7 @@
 </style>
 
 <div class="contenedor-animado">
-    <!-- Fila Superior de Navegación del Módulo -->
+    <!-- Barra superior: botón de volver, título y fecha actual -->
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
             <a href="{{ route('dashboard') }}" class="btn-premium secondary" style="width: auto; padding: 0 1rem;">
@@ -141,7 +141,7 @@
         </div>
     </div>
 
-    <!-- Alertas de Sesión (Éxito o Errores de Validación) -->
+    <!-- Mensajes de éxito y errores de validación -->
     @if(session('success'))
         <div class="alerta-exito">
             <i class="fa-solid fa-circle-check"></i> <strong>¡Operación Exitosa!</strong><br>
@@ -160,27 +160,27 @@
         </div>
     @endif
 
-    <!-- Contenedor Flex Adaptativo Ajustado -->
+    <!-- Contenedor de las dos columnas -->
     <div class="flex-asistencia">
         
-        <!-- COLUMNA IZQUIERDA: Formulario de Registro -->
+        <!-- Columna izquierda: formulario de registro de asistencia -->
         <div class="col-formulario">
             <div class="caja-cristal">
                 <h4 style="margin: 0 0 1.25rem 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 0.5rem;">
                     <i class="fa-solid fa-cash-register" style="color: #1a75ff;"></i> Liquidación de Raciones de Padrón
                 </h4>
                 
-                <!-- FORMULARIO CORREGIDO: Apunta a la ruta y ya no tiene preventDefault -->
+                <!-- Formulario: envía los datos a la ruta asistencia.store -->
                 <form action="{{ route('asistencia.store') }}" method="POST" id="form-asistencia">
                     @csrf
                     
-                    <!-- Campo 1: Código Anonimizado (Ley 29733) -->
+                    <!-- Código del comensal (anonimizado, según la Ley 29733) -->
                     <div style="margin-bottom: 1.25rem;">
                         <label for="codigo_beneficiario" style="font-weight: 600; margin-bottom: 0.4rem; display: block; font-size: 0.9rem; color: #cbd5e1;">
                             Código Identificador del Comensal (80 Base):
                         </label>
                         <div style="display: flex; gap: 0.5rem;">
-                            <!-- El valor se mantiene en caso de error para no obligar a reescribir -->
+                            <!-- Conserva el valor escrito si la validación falla -->
                             <input type="text" id="codigo_beneficiario" name="codigo_beneficiario" class="input-asistencia-premium" placeholder="Ej: BEN-CHA-024" value="{{ old('codigo_beneficiario') }}" required style="flex-grow: 1;">
                             <button type="button" class="btn-premium" style="min-height: auto; width: 50px; padding: 0; border-radius: 8px !important;" title="Escanear Huella (Próximamente)">
                                 <i class="fa-solid fa-fingerprint"></i>
@@ -188,7 +188,7 @@
                         </div>
                     </div>
 
-                    <!-- Campo 2: Tarifas Sociales (RF-03) -->
+                    <!-- Categoría del comensal y cuota aplicada (RF-03) -->
                     <div style="margin-bottom: 1.25rem;">
                         <span style="font-weight: 600; font-size: 0.9rem; color: #cbd5e1; display: block; margin-bottom: 0.5rem;">Categoría para Aplicación de Cuota:</span>
                         
@@ -209,7 +209,7 @@
                         </label>
                     </div>
 
-                    <!-- Campo 3: Cantidad Numérica -->
+                    <!-- Cantidad de raciones a retirar -->
                     <div style="margin-bottom: 1.25rem;">
                         <label for="raciones_retiradas" style="font-weight: 600; margin-bottom: 0.4rem; display: block; font-size: 0.9rem; color: #cbd5e1;">
                             Cantidad de Almuerzos a Retirar:
@@ -217,7 +217,7 @@
                         <input type="number" id="raciones_retiradas" name="raciones_retiradas" class="input-asistencia-premium" min="1" max="4" value="{{ old('raciones_retiradas', 1) }}" required>
                     </div>
 
-                    <!-- Campo 4: Exoneración -->
+                    <!-- Exoneración de cuota -->
                     <div style="margin-bottom: 1.75rem; background: rgba(250, 204, 21, 0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px dashed rgba(250, 204, 21, 0.15);">
                         <label for="exonerado" style="display: flex; align-items: center; gap: 0.5rem; margin: 0; cursor: pointer; user-select: none;">
                             <input type="checkbox" id="exonerado" name="exonerado" value="1" {{ old('exonerado') ? 'checked' : '' }} style="margin: 0; width: 15px; height: 15px;">
@@ -225,7 +225,7 @@
                         </label>
                     </div>
 
-                    <!-- BOTÓN CORREGIDO: Ahora es type="submit" y tiene un ID para el JS -->
+                    <!-- Botón de envío (los IDs los usa el script del final) -->
                     <button type="submit" class="btn-premium" id="btn-guardar">
                         <i class="fa-solid fa-check" id="icon-guardar"></i> <span id="texto-guardar">Guardar Asistencia y Procesar Salida</span>
                     </button>
@@ -233,7 +233,7 @@
             </div>
         </div>
 
-        <!-- COLUMNA DERECHA: Restricción del Límite de Arroz (RF-04) -->
+        <!-- Columna derecha: límite diario de arroz (RF-04) -->
         <div class="col-restriccion">
             <div class="caja-cristal" style="border-color: rgba(239, 68, 68, 0.12) !important;">
                 <h4 style="color: #f87171; margin: 0 0 1rem 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 0.5rem;">
@@ -256,20 +256,20 @@
     </div>
 </div>
 
-<!-- Script para la animación de carga (Spinner) -->
+<!-- Script: muestra un spinner al enviar el formulario -->
 <script>
     document.getElementById('form-asistencia').addEventListener('submit', function(e) {
-        // Si el formulario es válido y se va a enviar, cambiamos el botón
+        // Al enviar, se obtienen los elementos del botón para modificarlos
         const btn = document.getElementById('btn-guardar');
         const icon = document.getElementById('icon-guardar');
         const texto = document.getElementById('texto-guardar');
 
-        // Deshabilitar botón para evitar doble envío
+        // Se desactiva el botón para evitar envíos duplicados
         btn.disabled = true;
         btn.style.opacity = '0.7';
         btn.style.cursor = 'not-allowed';
 
-        // Cambiar ícono a spinner y texto
+        // Se reemplaza el ícono por un spinner y se cambia el texto
         icon.className = 'fa-solid fa-spinner fa-spin';
         texto.innerText = 'Procesando transacción...';
     });

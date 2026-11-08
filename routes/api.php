@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes - KusiMikuy Characato
+| Rutas de la API - KusiMikuy Characato
 |--------------------------------------------------------------------------
 */
 
-// Endpoints del CRUD del Padrón de Beneficiarios (Filtra de forma nativa bajas lógicas)
+// CRUD del padrón de beneficiarios (las bajas lógicas se filtran automáticamente)
 Route::apiResource('beneficiarios', BeneficiarioController::class);
 
 /**
- * Endpoint de Negocio: Registro de consumos y control estricto del límite de arroz.
- * Alerata el umbral rígido fiscalizado por la Municipalidad Provincial de Arequipa (MPA).
+ * Registra las salidas de insumos de la cocina y controla el límite de arroz.
+ * Avisa cuando se alcanza el tope fijado por la Municipalidad Provincial de Arequipa (MPA).
  */
 Route::post('/kardex/salida-cocina', function (Request $request, KardexService $kardexService) {
     
@@ -27,7 +27,7 @@ Route::post('/kardex/salida-cocina', function (Request $request, KardexService $
     ]);
 
     try {
-        // Invoca el algoritmo alojado en la capa de servicios desacoplada
+        // Llama a la lógica del servicio KardexService
         $movimiento = $kardexService->registrarSalidaCocina(
             $validated['beneficiario_id'],
             $validated['cantidad_kg'],
@@ -41,7 +41,7 @@ Route::post('/kardex/salida-cocina', function (Request $request, KardexService $
         ], 201);
 
     } catch (\Exception $e) {
-        // Intercepta el bloqueo preventivo del tope de 6 kg y remite la excepción en español
+        // Si se supera el tope de 6 kg, devuelve el mensaje de error en español
         return response()->json([
             'status'  => 'error',
             'message' => $e->getMessage()

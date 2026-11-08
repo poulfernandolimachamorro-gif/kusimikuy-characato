@@ -7,7 +7,7 @@
 
     <title>KusiMikuy Characato - Acceso Seguro</title>
 
-    <!-- CSS Crítico (Anti-FOUC) -->
+    <!-- Estilos base (se cargan antes para evitar el parpadeo sin estilos) -->
     <style>
         html, body {
             background-color: #070a12 !important;
@@ -77,20 +77,20 @@
         }
     </style>
     
-    <!-- Fuentes e Iconos -->
+    <!-- Estilos de Pico e íconos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="login-card">
-        <!-- Logo de la App -->
+        <!-- Logo y título -->
         <div style="text-align: center; margin-bottom: 2rem;">
             <i class="fa-solid fa-bowl-rice" style="font-size: 3rem; color: #22c55e; filter: drop-shadow(0 0 10px #22c55e); margin-bottom: 1rem;"></i>
             <h2 style="color: white; font-weight: 800; margin: 0; font-size: 1.8rem;">KusiMikuy <span style="color: #1a75ff; font-weight: 300;">Characato</span></h2>
             <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0.5rem;">Acceso Seguro al Sistema de Gestión</p>
         </div>
 
-        <!-- Aquí se inyecta el formulario (Login o Registro) -->
+        <!-- Aquí se muestra el contenido de cada vista (login, registro, etc.) -->
         {{ $slot }}
         
     </div>
