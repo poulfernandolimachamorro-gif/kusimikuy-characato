@@ -129,21 +129,11 @@ class BeneficiarioController extends Controller
         return view('beneficiarios.edit', compact('beneficiario'));
     }
 
-    public function update(Request $request, $id)
+        public function update(BeneficiarioUpdateRequest $request, $id)
     {
-        $request->validate([
-            'codigo_beneficiario' => 'required|string|max:20|unique:beneficiarios,codigo_beneficiario,'.$id,
-            'tipo_comensal'       => 'required|in:Socio/Cocinera,Público General',
-            'raciones_asignadas'  => 'required|integer|min:1|max:4'
-        ]);
-
         try {
             $beneficiario = Beneficiario::findOrFail($id);
-            $beneficiario->update([
-                'codigo_beneficiario' => $request->codigo_beneficiario,
-                'tipo_comensal'       => $request->tipo_comensal,
-                'raciones_asignadas'  => $request->raciones_asignadas,
-            ]);
+            $beneficiario->update($request->validated());
             return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario actualizado correctamente.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Error al actualizar: ' . $e->getMessage()]);
