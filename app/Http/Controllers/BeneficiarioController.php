@@ -33,13 +33,10 @@ class BeneficiarioController extends Controller
         return view('asistencia.index', compact('consumoHoy'));
     }
 
-    public function registrarAsistencia(Request $request)
+    public function registrarAsistencia(AsistenciaRequest $request)
     {
-        // La cuota ya no viaja en el formulario: se toma del tipo de comensal del padrón
-        $validated = $request->validate([
-            'codigo_beneficiario' => 'required|string|max:20',
-            'raciones_retiradas'  => 'required|integer|min:1|max:4'
-        ]);
+        // Validación y mensajes en español en AsistenciaRequest; la cuota sale del padrón
+        $validated = $request->validated();
 
         // Eloquent respeta SoftDeletes: un beneficiario dado de baja no puede registrar asistencia
         $beneficiario = Beneficiario::where('codigo_beneficiario', $validated['codigo_beneficiario'])
