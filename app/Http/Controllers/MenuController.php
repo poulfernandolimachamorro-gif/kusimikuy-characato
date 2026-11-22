@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
+use App\Http\Requests\MenuRequest;
 use App\Models\MenuReceta;
 use Illuminate\Support\Facades\DB;
 
@@ -13,9 +14,9 @@ class MenuController extends Controller {
         $insumos = DB::table('insumos')->get();
         return view('menus.create', compact('insumos'));
     }
-    public function store(Request $request) {
-        $request->validate(['nombre_plato' => 'required', 'insumo_id' => 'required', 'gramos_por_racion' => 'required|numeric']);
-        MenuReceta::create($request->all());
+    public function store(MenuRequest $request) {
+        // La validación vive en MenuRequest; validated() solo entrega los campos permitidos
+        MenuReceta::create($request->validated());
         return redirect()->route('menus.index')->with('success', 'Receta registrada.');
     }
     public function destroy($id) {
