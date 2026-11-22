@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\InsumoRequest;
 use Illuminate\Support\Facades\DB;
 
 class InsumoController extends Controller
@@ -16,12 +16,8 @@ class InsumoController extends Controller
         return view('insumos.create');
     }
     
-    public function store(Request $request) {
-        $request->validate([
-            'nombre_insumo' => 'required|string|max:100',
-            'stock_actual' => 'required|numeric|min:0',
-            'unidad_medida' => 'required|in:Kilogramos,Litros,Unidades,Sacos',
-        ]);
+    public function store(InsumoRequest $request) {
+        // La validación vive en InsumoRequest
         DB::table('insumos')->insert([
             'nombre_insumo' => $request->nombre_insumo,
             'stock_actual' => $request->stock_actual,
@@ -40,12 +36,7 @@ class InsumoController extends Controller
         return view('insumos.edit', compact('insumo'));
     }
 
-    public function update(Request $request, $id) {
-        $request->validate([
-            'nombre_insumo' => 'required|string|max:100',
-            'stock_actual' => 'required|numeric|min:0',
-            'unidad_medida' => 'required|in:Kilogramos,Litros,Unidades,Sacos',
-        ]);
+    public function update(InsumoRequest $request, $id) {
         DB::table('insumos')->where('id', $id)->update([
             'nombre_insumo' => $request->nombre_insumo,
             'stock_actual' => $request->stock_actual,
