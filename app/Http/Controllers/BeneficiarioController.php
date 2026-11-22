@@ -112,22 +112,12 @@ class BeneficiarioController extends Controller
         return view('beneficiarios.create');
     }
 
-    public function store(Request $request)
+        public function store(BeneficiarioStoreRequest $request)
     {
-        $request->validate([
-            'codigo_beneficiario'  => 'required|string|max:20|unique:beneficiarios,codigo_beneficiario',
-            'tipo_comensal'        => 'required|in:Socio/Cocinera,Público General',
-            'cantidad_integrantes' => 'required|integer|min:1',
-            'raciones_asignadas'   => 'required|integer|min:1|max:4',
-        ]);
-
-        Beneficiario::create([
-            'codigo_beneficiario'  => $request->codigo_beneficiario,
-            'tipo_comensal'        => $request->tipo_comensal,
-            'cantidad_integrantes' => $request->cantidad_integrantes,
-            'raciones_asignadas'   => $request->raciones_asignadas,
-            'fecha_incorporacion'  => now(),
-            'estado'               => true,
+        // La validación (y sus mensajes en español) vive en BeneficiarioStoreRequest
+        Beneficiario::create($request->validated() + [
+            'fecha_incorporacion' => now(),
+            'estado'              => true,
         ]);
 
         return redirect()->route('beneficiarios.index')->with('success', 'Beneficiario creado exitosamente.');
