@@ -45,8 +45,14 @@ class DashboardController extends Controller
             ->where('fecha_caducidad', '<=', now()->addDays(self::DIAS_ALERTA_DOCUMENTOS)->toDateString())
             ->count();
 
-        return view('dashboard', compact(
-            'padron', 'racionesHoy', 'tiposInsumo', 'caja', 'lotesAlerta', 'documentosAlerta'
+                // Algoritmo 1: insumos en "Stock Bajo" o "Agotado" (stock <= mínimo de alerta)
+        $stockAlerta = DB::table('insumos')
+            ->whereColumn('stock_actual', '<=', 'stock_minimo_alerta')
+            ->orderBy('stock_actual')
+            ->get(['nombre_insumo', 'stock_actual', 'stock_minimo_alerta', 'unidad_medida']);
+
+                return view('dashboard', compact(
+            'padron', 'racionesHoy', 'tiposInsumo', 'caja', 'lotesAlerta', 'documentosAlerta', 'stockAlerta'
         ));
     }
 }

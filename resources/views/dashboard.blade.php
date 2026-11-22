@@ -41,11 +41,11 @@
         </div>
     </div>
 
-@if($lotesAlerta->isNotEmpty() || $documentosAlerta > 0)
+@if($lotesAlerta->isNotEmpty() || $documentosAlerta > 0 || $stockAlerta->isNotEmpty())
     <details open style="border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; background: rgba(239, 68, 68, 0.02); margin-bottom: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.3); width: 100%; max-width: 100%; box-sizing: border-box;">
         <summary style="color: #f87171; font-weight: 700; padding: 1.1rem; cursor: pointer; user-select: none; font-size: 1.05rem;">
             <i class="fa-solid fa-triangle-exclamation" style="filter: drop-shadow(0 0 5px #f87171);"></i> 
-            ALERTAS OPERACIONALES: Lotes de Insumos y Documentos Legales
+            ALERTAS OPERACIONALES: Lotes, Stock y Documentos Legales
         </summary>
         <div style="padding: 0 1.1rem 1.1rem 1.1rem; border-top: 1px solid rgba(239, 68, 68, 0.08); padding-top: 1rem; margin-top: 0.2rem;">
             @foreach($lotesAlerta as $lote)
@@ -54,6 +54,19 @@
                 ({{ $lote->estado_calidad }}@if($lote->fecha_vencimiento), vence {{ $lote->fecha_vencimiento }}@endif)
             </p>
             @endforeach
+
+            @foreach($stockAlerta as $insumo)
+            <p style="margin: 0 0 0.5rem 0; font-size: 0.95rem;">
+                <strong>Stock:</strong> {{ $insumo->nombre_insumo }} —
+                @if($insumo->stock_actual <= 0)
+                    <span style="color: #f87171; font-weight: 700;">Agotado</span>
+                @else
+                    <span style="color: #facc15; font-weight: 700;">Stock bajo</span>
+                    ({{ number_format($insumo->stock_actual, 2) }} {{ $insumo->unidad_medida }}; mínimo {{ number_format($insumo->stock_minimo_alerta, 2) }})
+                @endif
+            </p>
+            @endforeach
+
             @if($documentosAlerta > 0)
             <p style="margin: 0; font-size: 0.9rem; line-height: 1.45rem;" class="subtexto">
                 <strong>Documentos legales:</strong> {{ $documentosAlerta }} vencido(s) o por vencer en los próximos 60 días.
