@@ -73,17 +73,20 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // 4. Insumo inicial para el Kardex (A prueba de duplicados)
+         // 4. Insumo inicial para el Kardex (A prueba de duplicados)
         DB::table('insumos')->updateOrInsert(
             ['nombre_insumo' => 'Arroz Común'], // Busca si ya existe este insumo
             [
-                'stock_actual' => 50.00,
-                'stock_minimo_alerta' => 10.00,
+                'stock_actual'          => 50.00,
+                'stock_minimo_alerta'   => 10.00,
                 'limite_consumo_diario' => 6.00,
-                'unidad_medida' => 'Kilogramos',
-                'created_at' => now(),
-                'updated_at' => now()
+                'unidad_medida'         => 'Kilogramos',
+                'created_at'            => now(),
+                'updated_at'            => now()
             ]
         );
+
+        // 5. Datos de demostración para la exposición (padrón completo, asistencias, etc.)
+        $this->call(DemoDataSeeder::class);
     }
 }
