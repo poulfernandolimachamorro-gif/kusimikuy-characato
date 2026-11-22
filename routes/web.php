@@ -10,6 +10,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ControlAsistenciaController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -21,6 +22,8 @@ Route::middleware(['auth'])->group(function () {
     // Módulo Asistencia y Marcado Diario
     Route::get('/asistencia', [BeneficiarioController::class, 'mostrarAsistencia'])->name('asistencia.index');
     Route::post('/asistencia/registrar', [BeneficiarioController::class, 'registrarAsistencia'])->name('asistencia.store');
+    // Control de asistencia del día: quién asistió y quién no (disponible para Encargada y Voluntario)
+    Route::get('/asistencia/control', [ControlAsistenciaController::class, 'index'])->name('asistencia.control');
 
     // Módulo Kardex de Suministros
     Route::get('/kardex', function () {
