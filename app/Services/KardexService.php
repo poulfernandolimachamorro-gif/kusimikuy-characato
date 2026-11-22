@@ -33,9 +33,11 @@ class KardexService
             }
 
             // 2. Fiscalización del tope diario (RF-04)
-            $arrozConsumidoHoy = DB::table('entregas_raciones')
+            // sola vez: sumar decimales fila por fila acumula error y podría bloquear la ración 40.
+            $racionesHoy = (int) DB::table('entregas_raciones')
                 ->where('fecha_entrega', date('Y-m-d'))
-                ->sum(DB::raw('raciones_retiradas * 0.15'));
+                ->sum('raciones_retiradas');
+            $arrozConsumidoHoy = round($racionesHoy * 0.15, 2);
 
             if (($arrozConsumidoHoy + $gastoArrozNuevo) > 6.00) {
                 throw new Exception("Transacción abortada: La orden excede el límite municipal de 6.00 kg de arroz diarios. Restan únicamente " . number_format(6.00 - $arrozConsumidoHoy, 2) . " kg.");
