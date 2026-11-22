@@ -132,7 +132,7 @@
                 <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Monitoreo inmutable del Kardex de suministros y mermas físicas.</span>
             </div>
         </a>
-
+        @if(auth()->user()->rol === 'Encargada')
         <!-- Gestión de Insumos -->
         <a href="{{ route('insumos.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-boxes-stacked fa-lg" style="color: #facc15;"></i>
@@ -186,6 +186,7 @@
                 <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Compilación analítica contable automatizada lista para fiscalización.</span>
             </div>
         </a>
+        @endif
     </div>
 </div>
 @endsection
