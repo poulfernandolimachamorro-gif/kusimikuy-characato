@@ -3,6 +3,9 @@
 @section('content')
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto;">
     <h2 style="color: white;">Registrar Insumo</h2>
+
+    @include('partials.errores')
+    
     <form action="{{ route('insumos.store') }}" method="POST">
         @csrf
         <label style="color: #cbd5e1;">Nombre del Insumo:</label>
