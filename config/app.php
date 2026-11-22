@@ -63,7 +63,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // Zona horaria de Perú "hoy" debe coincidir con la jornada real del comedor (9:00 a 14:00)
+    'timezone' => env('APP_TIMEZONE', 'America/Lima'),
 
     /*
     |--------------------------------------------------------------------------
