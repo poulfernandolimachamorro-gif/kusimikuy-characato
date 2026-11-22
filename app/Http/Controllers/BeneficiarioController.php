@@ -44,7 +44,28 @@ class BeneficiarioController extends Controller
             ->first();
 
         if (!$beneficiario) {
-            return redirect()->back()->withErrors(['error' => 'El código de comensal ingresado no figura como Activo en el padrón.']);
+            return redirect()->back()->withInput()
+                ->withErrors(['error' => 'El código de comensal ingresado no figura como Activo en el padrón.']);
+        }
+
+        // Regla 1 (RF-03): una sola asistencia por comensal y por día
+        $yaAsistioHoy = EntregaRacion::where('beneficiario_id', $beneficiario->id)
+            ->whereDate('fecha_entrega', today())
+            ->exists();
+
+        if ($yaAsistioHoy) {
+            return redirect()->back()->withInput()->withErrors([
+                'duplicado' => "El comensal {$beneficiario->codigo_beneficiario} ya registró su asistencia el día de hoy.",
+            ]);
+        }
+
+        // Regla 2: límite por persona. No puede retirar más raciones de las autorizadas en el padrón
+        if ($validated['raciones_retiradas'] > $beneficiario->raciones_asignadas) {
+            return redirect()->back()->withInput()->withErrors([
+                'limite_persona' => "El comensal {$beneficiario->codigo_beneficiario} tiene autorizadas "
+                    . "{$beneficiario->raciones_asignadas} ración(es) por día y no puede retirar "
+                    . "{$validated['raciones_retiradas']}.",
+            ]);
         }
 
         try {
@@ -52,11 +73,16 @@ class BeneficiarioController extends Controller
                 $beneficiario,
                 $validated['raciones_retiradas'],
                 $validated['tipo_comensal'],
-                $request->has('exonerado')
+                $request->boolean('exonerado')
             );
             return redirect()->back()->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
+        } catch (UniqueConstraintViolationException $e) {
+            // Respaldo del índice UNIQUE (beneficiario_id, fecha_entrega) ante dos envíos simultáneos
+            return redirect()->back()->withInput()->withErrors([
+                'duplicado' => "El comensal {$beneficiario->codigo_beneficiario} ya registró su asistencia el día de hoy.",
+            ]);
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['limite' => $e->getMessage()]);
+            return redirect()->back()->withInput()->withErrors(['limite' => $e->getMessage()]);
         }
     }
 
