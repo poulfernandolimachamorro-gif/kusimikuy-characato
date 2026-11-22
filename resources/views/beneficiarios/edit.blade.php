@@ -6,6 +6,8 @@
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
     <h2 style="color: white; margin-bottom: 1.5rem;">Editar Comensal: {{ $beneficiario->codigo_beneficiario }}</h2>
     
+    @include('partials.errores')
+
     <form action="{{ route('beneficiarios.update', $beneficiario->id) }}" method="POST">
         @csrf
         @method('PUT')
