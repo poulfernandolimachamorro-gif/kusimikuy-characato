@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\GastoRequest;
 use Illuminate\Support\Facades\DB;
 
 class GastoController extends Controller
@@ -16,12 +16,8 @@ class GastoController extends Controller
         return view('gastos.create');
     }
     
-    public function store(Request $request) {
-        $request->validate([
-            'concepto' => 'required|string|max:200',
-            'monto' => 'required|numeric|min:0.01',
-            'fecha_gasto' => 'required|date',
-        ]);
+    public function store(GastoRequest $request) {
+        // La validación vive en GastoRequest
         DB::table('gastos')->insert([
             'concepto' => $request->concepto,
             'monto' => $request->monto,
@@ -40,12 +36,7 @@ class GastoController extends Controller
         return view('gastos.edit', compact('gasto'));
     }
 
-    public function update(Request $request, $id) {
-        $request->validate([
-            'concepto' => 'required|string|max:200',
-            'monto' => 'required|numeric|min:0.01',
-            'fecha_gasto' => 'required|date',
-        ]);
+    public function update(GastoRequest $request, $id) {
         DB::table('gastos')->where('id', $id)->update([
             'concepto' => $request->concepto,
             'monto' => $request->monto,
