@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
  * Control de asistencia diaria (RF-03).
  *
  * Contrasta el padrón activo con las raciones entregadas en una fecha para mostrar
- * quiénes asistieron y quiénes no, y cuánto del cupo diario se utilizó.
+ * quiénes asistieron y quiénes no, cuánto del cupo diario se utilizó y, para la
+ * jornada de hoy, qué ausentes conviene llamar como suplentes si quedan raciones.
  * Es de solo lectura: el marcado de asistencia lo registra BeneficiarioController.
  */
 class ControlAsistenciaController extends Controller
@@ -19,6 +20,10 @@ class ControlAsistenciaController extends Controller
     /** Tope municipal diario de arroz (kg) y consumo por ración (kg): 6.00 / 0.15 = 40 raciones. */
     private const TOPE_KG = 6.00;
     private const KG_POR_RACION = 0.15;
+
+    /** Ventana (en días) para medir cuánto asistió cada ausente, y máximo de suplentes a sugerir. */
+    private const DIAS_HISTORIAL = 30;
+    private const MAX_SUPLENTES = 10;
 
     public function index(Request $request)
     {
@@ -32,6 +37,7 @@ class ControlAsistenciaController extends Controller
             ? Carbon::parse($datos['fecha'])->toDateString()
             : today()->toDateString();
         $soloAusentes = (bool) ($datos['ausentes'] ?? false);
+        $esHoy        = $fecha === today()->toDateString();
 
         // Entregas de la fecha, indexadas por beneficiario para cruzarlas sin consultas repetidas
         $entregas = EntregaRacion::whereDate('fecha_entrega', $fecha)->get()->keyBy('beneficiario_id');
@@ -55,12 +61,35 @@ class ControlAsistenciaController extends Controller
         $porcentaje       = $totalPadron > 0 ? (int) round($asistieron / $totalPadron * 100) : 0;
         $racionesServidas = (int) $entregas->sum('raciones_retiradas');
         $cupoRaciones     = (int) round(self::TOPE_KG / self::KG_POR_RACION);
+        $cupoDisponible   = max(0, $cupoRaciones - $racionesServidas);
+
+        // Suplentes: solo tiene sentido para hoy y mientras quede cupo. Se prioriza a quien
+        // menos asistió en los últimos 30 días; a igualdad, por código para un orden estable.
+        $suplentes = collect();
+        if ($esHoy && $cupoDisponible > 0) {
+            $desde = Carbon::parse($fecha)->subDays(self::DIAS_HISTORIAL - 1)->toDateString();
+
+            $asistencias = EntregaRacion::whereBetween('fecha_entrega', [$desde, $fecha])
+                ->selectRaw('beneficiario_id, COUNT(*) as total')
+                ->groupBy('beneficiario_id')
+                ->pluck('total', 'beneficiario_id');
+
+            $suplentes = $padron->where('asistio', false)
+                ->map(function ($beneficiario) use ($asistencias) {
+                    $beneficiario->asistencias_30d = (int) ($asistencias[$beneficiario->id] ?? 0);
+
+                    return $beneficiario;
+                })
+                ->sortBy([['asistencias_30d', 'asc'], ['codigo_beneficiario', 'asc']])
+                ->take(min($cupoDisponible, self::MAX_SUPLENTES))
+                ->values();
+        }
 
         $listado = $soloAusentes ? $padron->where('asistio', false) : $padron;
 
         return view('asistencia.control', compact(
-            'fecha', 'listado', 'totalPadron', 'asistieron', 'ausentes',
-            'porcentaje', 'racionesServidas', 'cupoRaciones', 'soloAusentes'
+            'fecha', 'listado', 'totalPadron', 'asistieron', 'ausentes', 'porcentaje',
+            'racionesServidas', 'cupoRaciones', 'cupoDisponible', 'suplentes', 'esHoy', 'soloAusentes'
         ));
     }
 }
