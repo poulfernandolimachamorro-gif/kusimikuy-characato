@@ -126,10 +126,61 @@
         </div>
     </div>
 
-    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 1.5rem;">
-        Raciones servidas: <strong style="color: #ffffff;">{{ $racionesServidas }}</strong> de {{ $cupoRaciones }} permitidas
-        por el tope municipal diario (6.00 kg de arroz).
-    </p>
+        <!-- Cupo disponible del día (tope municipal de 6.00 kg = 40 raciones) -->
+    <div class="caja-cristal" style="{{ $cupoDisponible === 0 ? 'border-color: rgba(239, 68, 68, 0.3) !important;' : '' }}">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-weight: 600; font-size: 0.95rem;">
+            <span style="color: #cbd5e1;"><i class="fa-solid fa-bowl-rice" style="color: #facc15;"></i> Cupo de raciones del día</span>
+            <span style="color: {{ $cupoDisponible === 0 ? '#f87171' : '#4ade80' }};">
+                Disponible: {{ $cupoDisponible }} de {{ $cupoRaciones }}
+            </span>
+        </div>
+        <progress value="{{ min($racionesServidas, $cupoRaciones) }}" max="{{ $cupoRaciones }}" style="width: 100%; height: 10px; margin-top: 0.75rem;"></progress>
+        <p class="subtexto" style="margin: 0.6rem 0 0 0;">
+            Raciones servidas: <strong style="color: #ffffff;">{{ $racionesServidas }}</strong> de {{ $cupoRaciones }}
+            permitidas por el tope municipal diario (6.00 kg de arroz).
+            @if($esHoy && $cupoDisponible === 0)
+                <strong style="color: #f87171;">Cupo completo: no se pueden registrar más raciones hoy.</strong>
+            @endif
+        </p>
+    </div>
+
+    <!-- Suplentes sugeridos: solo para la jornada de hoy y mientras quede cupo -->
+    @if($esHoy && $cupoDisponible > 0)
+    <div class="caja-cristal" style="overflow-x: auto;">
+        <h4 style="margin: 0 0 0.25rem 0; color: #ffffff;">
+            <i class="fa-solid fa-user-clock" style="color: #60a5fa;"></i> Suplentes sugeridos
+        </h4>
+        <p class="subtexto" style="margin: 0 0 1rem 0;">
+            Ausentes de hoy con menos asistencias en los últimos 30 días, para aprovechar el cupo restante.
+        </p>
+        <table class="tabla-asistencia">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Tipo de comensal</th>
+                    <th>Raciones autorizadas</th>
+                    <th>Asistencias (30 días)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($suplentes as $suplente)
+                <tr>
+                    <td style="font-weight: bold; color: #66b2ff;">{{ $suplente->codigo_beneficiario }}</td>
+                    <td>{{ $suplente->tipo_comensal }}</td>
+                    <td>{{ $suplente->raciones_asignadas }}</td>
+                    <td>{{ $suplente->asistencias_30d }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #94a3b8; padding: 1.5rem;">
+                        No hay ausentes disponibles: todos los beneficiarios ya asistieron hoy.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    @endif
 
     <!-- Detalle por beneficiario -->
     <div class="caja-cristal" style="overflow-x: auto;">
