@@ -7,16 +7,21 @@ use Exception;
 
 class KardexService
 {
+    /** Cuotas sociales por ración (RF-03). Se aplican según el tipo de comensal registrado en el padrón. */
+    private const CUOTA_SOCIO_COCINERA  = 5.00;
+    private const CUOTA_PUBLICO_GENERAL = 8.00;
+
     /**
      * Procesa la asistencia diaria y el cobro (RF-03), con validación atómica (RF-04).
+     * La tarifa ya no la decide el operador: sale de beneficiarios.tipo_comensal.
      */
-    public function registrarEntrega($beneficiario, int $raciones, string $tipoComensal, bool $exonerado): float
+    public function registrarEntrega($beneficiario, int $raciones, bool $exonerado): float
     {
         $kgPorRacion = 0.15;
         $gastoArrozNuevo = $raciones * $kgPorRacion;
 
-        return DB::transaction(function () use ($beneficiario, $raciones, $tipoComensal, $exonerado, $gastoArrozNuevo) {
-            
+        return DB::transaction(function () use ($beneficiario, $raciones, $exonerado, $gastoArrozNuevo) {
+
             // 1. Bloqueo pesimista del insumo para evitar condiciones de carrera
             $insumo = DB::table('insumos')
                 ->where('nombre_insumo', 'Arroz Común')
@@ -40,8 +45,10 @@ class KardexService
                 throw new Exception("Quiebre de Almacén: No hay stock físico suficiente de arroz para cubrir esta entrega.");
             }
 
-            // 3. Liquidación de cuotas (RF-03)
-            $tarifaBase = ($tipoComensal === 'Socio/Cocinera') ? 5.00 : 8.00;
+            // 3. Liquidación de cuotas (RF-03): la tarifa depende del tipo de comensal del padrón
+            $tarifaBase = ($beneficiario->tipo_comensal === 'Socio/Cocinera')
+                ? self::CUOTA_SOCIO_COCINERA
+                : self::CUOTA_PUBLICO_GENERAL;
             $cuotaCalculada = $exonerado ? 0.00 : ($raciones * $tarifaBase);
 
             // 4. Persistencia
@@ -78,7 +85,7 @@ class KardexService
     public function registrarSalidaCocina(int $beneficiarioId, float $cantidadKg, ?string $motivoDetalle)
     {
         return DB::transaction(function () use ($beneficiarioId, $cantidadKg, $motivoDetalle) {
-            
+
             $insumo = DB::table('insumos')
                 ->where('nombre_insumo', 'Arroz Común')
                 ->lockForUpdate()
