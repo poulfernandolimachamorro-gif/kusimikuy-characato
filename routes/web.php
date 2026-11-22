@@ -11,6 +11,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ControlAsistenciaController;
+use App\Http\Controllers\KardexController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -25,11 +26,7 @@ Route::middleware(['auth'])->group(function () {
     // Control de asistencia del día: quién asistió y quién no (disponible para Encargada y Voluntario)
     Route::get('/asistencia/control', [ControlAsistenciaController::class, 'index'])->name('asistencia.control');
 
-    // Módulo Kardex de Suministros
-    Route::get('/kardex', function () {
-        $insumos = \Illuminate\Support\Facades\DB::table('insumos')->get();
-        return view('kardex.index', compact('insumos'));
-    })->name('kardex.index');
+    Route::get('/kardex', [KardexController::class, 'index'])->name('kardex.index');
 
     // Rutas protegidas para Rol Encargada (Matriz de Control RBAC)
     Route::middleware(['rol:Encargada'])->group(function () {

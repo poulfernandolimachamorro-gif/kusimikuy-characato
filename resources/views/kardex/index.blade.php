@@ -60,6 +60,7 @@
                     <th>Unidad de Medida</th>
                     <th>Stock Actual</th>
                     <th>Límite Diario MPA</th>
+                    <th>Autonomía estimada</th>
                     <th>Estado (Semáforo)</th>
                 </tr>
             </thead>
@@ -82,6 +83,13 @@
                         @endif
                     </td>
                     <td>
+                        @if(!is_null($insumo->autonomia_dias))
+                            ≈ {{ number_format($insumo->autonomia_dias, 1) }} días
+                        @else
+                            <span class="subtexto">Sin consumo registrado</span>
+                        @endif
+                    </td>
+                    <td>
                         @if($insumo->stock_actual <= 0)
                             <span class="badge-stock stock-critico"><i class="fa-solid fa-circle-xmark"></i> Agotado</span>
                         @elseif($insumo->stock_actual <= $insumo->stock_minimo_alerta)
@@ -93,7 +101,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" style="text-align: center; padding: 3rem; color: #94a3b8;">
+                    <td colspan="6" style="text-align: center; padding: 3rem; color: #94a3b8;">
                         <i class="fa-solid fa-box-open" style="font-size: 3rem; margin-bottom: 1rem; color: #334155;"></i>
                         <p>No hay insumos registrados en el almacén.</p>
                     </td>
@@ -101,6 +109,10 @@
                 @endforelse
             </tbody>
         </table>
+            <p class="subtexto" style="margin-top: 1rem; font-size: 0.8rem;">
+        Autonomía = stock actual ÷ consumo diario promedio de las últimas 2 semanas
+        (arroz: {{ number_format($consumoDiarioArroz, 2) }} kg/día).
+    </p>
     </div>
 </div>
 @endsection
