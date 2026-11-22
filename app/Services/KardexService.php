@@ -39,7 +39,7 @@ class KardexService
                 ->sum('raciones_retiradas');
             $arrozConsumidoHoy = round($racionesHoy * 0.15, 2);
 
-            if (($arrozConsumidoHoy + $gastoArrozNuevo) > 6.00) {
+            if (round($arrozConsumidoHoy + $gastoArrozNuevo, 2) > 6.00) {
                 throw new Exception("Transacción abortada: La orden excede el límite municipal de 6.00 kg de arroz diarios. Restan únicamente " . number_format(6.00 - $arrozConsumidoHoy, 2) . " kg.");
             }
 
