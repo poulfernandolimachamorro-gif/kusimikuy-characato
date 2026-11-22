@@ -32,9 +32,9 @@ class BeneficiarioController extends Controller
 
     public function registrarAsistencia(Request $request)
     {
+        // La cuota ya no viaja en el formulario: se toma del tipo de comensal del padrón
         $validated = $request->validate([
             'codigo_beneficiario' => 'required|string|max:20',
-            'tipo_comensal'       => 'required|in:Socio/Cocinera,Público General',
             'raciones_retiradas'  => 'required|integer|min:1|max:4'
         ]);
 
@@ -72,10 +72,16 @@ class BeneficiarioController extends Controller
             $cuotaCobrada = $this->kardexService->registrarEntrega(
                 $beneficiario,
                 $validated['raciones_retiradas'],
-                $validated['tipo_comensal'],
                 $request->boolean('exonerado')
             );
-            return redirect()->back()->with('success', 'Asistencia registrada con éxito. S/. ' . number_format($cuotaCobrada, 2) . ' integrados a Caja Chica.');
+
+            return redirect()->back()->with('success', sprintf(
+                'Asistencia de %s (%s) registrada: %d ración(es). S/. %s integrados a Caja Chica.',
+                $beneficiario->codigo_beneficiario,
+                $beneficiario->tipo_comensal,
+                $validated['raciones_retiradas'],
+                number_format($cuotaCobrada, 2)
+            ));
         } catch (UniqueConstraintViolationException $e) {
             // Respaldo del índice UNIQUE (beneficiario_id, fecha_entrega) ante dos envíos simultáneos
             return redirect()->back()->withInput()->withErrors([
