@@ -7,6 +7,7 @@
         <a href="{{ route('insumos.create') }}" class="btn-premium" style="width: auto;">+ Nuevo Insumo</a>
     </div>
     @if(session('success')) <div class="alerta-exito">{{ session('success') }}</div> @endif
+        @include('partials.errores')
     <table style="width: 100%; border-collapse: collapse; color: #cbd5e1;">
         <thead>
             <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
