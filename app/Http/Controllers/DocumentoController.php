@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentoRequest;
 use App\Models\DocumentoLegal;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 /**
  * Control de vigencia de documentos legales (RF-05).
@@ -37,15 +37,10 @@ class DocumentoController extends Controller
         return view('documentos.create');
     }
 
-    public function store(Request $request)
+    public function store(DocumentoRequest $request)
     {
-        $datos = $request->validate([
-            'tipo_documento'  => 'required|in:Resolución Municipal,Registros Públicos,Libro de Actas Mensual',
-            'fecha_emision'   => 'required|date',
-            'fecha_caducidad' => 'required|date|after:fecha_emision',
-        ]);
-
-        DocumentoLegal::create($datos);
+        // La validación vive en DocumentoRequest
+        DocumentoLegal::create($request->validated());
 
         return redirect()->route('documentos.index')->with('success', 'Documento registrado.');
     }
