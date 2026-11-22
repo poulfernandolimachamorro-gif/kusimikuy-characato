@@ -10,6 +10,7 @@ use App\Models\EntregaRacion;
 use Illuminate\Database\UniqueConstraintViolationException;
 use App\Http\Requests\BeneficiarioStoreRequest;
 use App\Http\Requests\BeneficiarioUpdateRequest;
+use App\Http\Requests\AsistenciaRequest;
 use Exception;
 
 class BeneficiarioController extends Controller
