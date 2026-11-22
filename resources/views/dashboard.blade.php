@@ -57,7 +57,9 @@
             @if($documentosAlerta > 0)
             <p style="margin: 0; font-size: 0.9rem; line-height: 1.45rem;" class="subtexto">
                 <strong>Documentos legales:</strong> {{ $documentosAlerta }} vencido(s) o por vencer en los próximos 60 días.
-                <a href="{{ route('documentos.index') }}" style="color: #93c5fd;">Revisar</a>
+                @if(auth()->user()->rol === 'Encargada')
+                    <a href="{{ route('documentos.index') }}" style="color: #93c5fd;">Revisar</a>
+                @endif
             </p>
             @endif
         </div>
