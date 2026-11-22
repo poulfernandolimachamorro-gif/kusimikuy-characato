@@ -2,39 +2,43 @@
 @section('title', 'Insumos')
 @section('content')
 <div class="caja-cristal">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <h2 style="color: white;">Gestión de Insumos</h2>
         <a href="{{ route('insumos.create') }}" class="btn-premium" style="width: auto;">+ Nuevo Insumo</a>
     </div>
     @if(session('success')) <div class="alerta-exito">{{ session('success') }}</div> @endif
-        @include('partials.errores')
-    <table style="width: 100%; border-collapse: collapse; color: #cbd5e1;">
-        <thead>
-            <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
-                <th style="padding: 1rem;">Insumo</th>
-                <th style="padding: 1rem;">Stock Actual</th>
-                <th style="padding: 1rem;">Unidad</th>
-                <th style="padding: 1rem;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($insumos as $insumo)
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <td style="padding: 1rem;">{{ $insumo->nombre_insumo }}</td>
-                <td style="padding: 1rem;">{{ $insumo->stock_actual }}</td>
-                <td style="padding: 1rem;">{{ $insumo->unidad_medida }}</td>
-                <td style="padding: 1rem;">
-                    <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <a href="{{ route('insumos.edit', $insumo->id) }}" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;"><i class="fa-solid fa-pen"></i></a>
-                    <form action="{{ route('insumos.destroy', $insumo->id) }}" method="POST">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="btn-premium" style="background: #ef4444; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;" onclick="return confirm('¿Eliminar?')"><i class="fa-solid fa-trash"></i></button>
-                    </form>
-                    </div>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    @include('partials.errores')
+
+    <!-- Contenedor responsivo para celular -->
+    <div style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px;">
+        <table style="width: 100%; min-width: 550px; border-collapse: collapse; color: #cbd5e1;">
+            <thead>
+                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                    <th style="padding: 1rem; text-align: left;">Insumo</th>
+                    <th style="padding: 1rem; text-align: left;">Stock Actual</th>
+                    <th style="padding: 1rem; text-align: left;">Unidad</th>
+                    <th style="padding: 1rem; text-align: left;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($insumos as $insumo)
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 1rem;">{{ $insumo->nombre_insumo }}</td>
+                    <td style="padding: 1rem;">{{ $insumo->stock_actual }}</td>
+                    <td style="padding: 1rem;">{{ $insumo->unidad_medida }}</td>
+                    <td style="padding: 1rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <a href="{{ route('insumos.edit', $insumo->id) }}" class="btn-premium secondary" style="padding: 0.2rem 0.5rem; min-height: 30px; width: auto;"><i class="fa-solid fa-pen"></i></a>
+                            <form action="{{ route('insumos.destroy', $insumo->id) }}" method="POST">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn-premium" style="background: #ef4444; padding: 0.2rem 0.5rem; min-height: 30px; width: auto;" onclick="return confirm('¿Eliminar?')"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
