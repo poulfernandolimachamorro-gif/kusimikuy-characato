@@ -280,9 +280,10 @@ class DemoDataSeeder extends Seeder
     {
         DB::table('movimientos_kardex')->updateOrInsert(
             [
-                'tipo_movimiento' => 'Salida - Merma',
+                'tipo_movimiento' => 'Salida - Merma Insumo Verde',
                 'motivo_detalle'  => 'Arroz verde quemado por falta de graneado (lote L-ARR-02)',
             ],
+
             [
                 'beneficiario_id' => null,
                 'usuario_id'      => $usuarioId,
