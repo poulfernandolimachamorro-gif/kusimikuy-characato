@@ -75,7 +75,7 @@ Para ver el bloqueo de 6 kg en vivo: la jornada de hoy queda con unas 34 racione
 ```bash
 php artisan test
 ```
-Ejecuta **44 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común y cabeceras de seguridad.
+Ejecuta **47 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común y cabeceras de seguridad.
 
 ## 8. Seguridad
 
