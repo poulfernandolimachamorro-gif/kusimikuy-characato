@@ -101,6 +101,27 @@
     </a>
 
     <div class="rejilla-acciones-secundarias">
+    
+            <!-- Control de Asistencia: disponible para Encargada y Voluntario -->
+        <a href="{{ route('asistencia.control') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-clipboard-user fa-lg" style="color: #60a5fa;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Control de Asistencia</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Quién asistió y quién no en la jornada.</span>
+            </div>
+        </a>
+
+        @if(auth()->user()->rol === 'Encargada')
+        <!-- Padrón de Beneficiarios: gestión exclusiva de la Encargada -->
+        <a href="{{ route('beneficiarios.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
+            <i class="fa-solid fa-users fa-lg" style="color: #4ade80;"></i>
+            <div style="text-align: left;">
+                <span style="display: block; font-size: 1rem; font-weight: 700; color: #ffffff;">Padrón de Beneficiarios</span>
+                <span style="display: block; font-size: 0.78rem; margin-top: 0.1rem;" class="subtexto">Alta, edición y baja lógica de familias.</span>
+            </div>
+        </a>
+        @endif
+        
         <!-- Control de Almacén e Inventarios -->
         <a href="{{ route('kardex.index') }}" class="btn-premium secondary" style="display: flex; align-items: center; gap: 0.75rem; justify-content: flex-start; padding: 1.3rem; width: 100%;">
             <i class="fa-solid fa-warehouse fa-lg" style="color: #3b82f6;"></i>
