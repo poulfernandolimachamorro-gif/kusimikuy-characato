@@ -188,25 +188,14 @@
                         </div>
                     </div>
 
-                    <!-- Categoría del comensal y cuota aplicada (RF-03) -->
-                    <div style="margin-bottom: 1.25rem;">
-                        <span style="font-weight: 600; font-size: 0.9rem; color: #cbd5e1; display: block; margin-bottom: 0.5rem;">Categoría para Aplicación de Cuota:</span>
-                        
-                        <label class="tarjeta-radio-social" for="socia">
-                            <input type="radio" id="socia" name="tipo_comensal" value="Socio/Cocinera" {{ old('tipo_comensal') == 'Socio/Cocinera' ? 'checked' : '' }} checked style="margin: 0; width: 16px; height: 16px; cursor: pointer;">
-                            <div>
-                                <strong style="color: #ffffff; font-size: 0.9rem; display: block;">Socia / Madre de Cocina Voluntaria</strong>
-                                <span style="font-size: 0.8rem;" class="text-exito">Cuota social: S/. 5.00 por ración</span>
-                            </div>
-                        </label>
-
-                        <label class="tarjeta-radio-social" for="publico">
-                            <input type="radio" id="publico" name="tipo_comensal" value="Público General" {{ old('tipo_comensal') == 'Público General' ? 'checked' : '' }} style="margin: 0; width: 16px; height: 16px; cursor: pointer;">
-                            <div>
-                                <strong style="color: #ffffff; font-size: 0.9rem; display: block;">Público General / Vecino Externo</strong>
-                                <span style="font-size: 0.8rem; color: #66b2ff;">Cuota estándar: S/. 8.00 por ración</span>
-                            </div>
-                        </label>
+                    <!-- La cuota ya no se elige: sale del tipo de comensal registrado en el padrón (RF-03) -->
+                    <div style="margin-bottom: 1.25rem; background: rgba(26, 117, 255, 0.04); border: 1px solid rgba(26, 117, 255, 0.15); border-radius: 8px; padding: 0.9rem 1rem;">
+                            <span style="font-weight: 600; font-size: 0.9rem; color: #cbd5e1; display: block; margin-bottom: 0.4rem;">
+                                <i class="fa-solid fa-circle-info" style="color: #66b2ff;"></i> Cuota aplicada automáticamente
+                            </span>
+                                <span style="font-size: 0.8rem; display: block;" class="text-exito">Socio / Cocinera: S/. 5.00 por ración</span>
+                                <span style="font-size: 0.8rem; display: block; color: #66b2ff;">Público General: S/. 8.00 por ración</span>
+                                <span class="subtexto" style="font-size: 0.78rem; display: block; margin-top: 0.4rem;">Se toma del padrón según el código ingresado.</span>
                     </div>
 
                     <!-- Cantidad de raciones a retirar -->
