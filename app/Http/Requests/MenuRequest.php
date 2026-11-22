@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 
 /**
- * Valida el alta de menús y recetas (RF-10): plato, insumo existente y gramos por ración.
+ * Valida el alta de menús y recetas (RF-10): plato, insumo existente y con stock, y gramos por ración.
  */
 class MenuRequest extends FormRequest
 {
@@ -17,8 +18,16 @@ class MenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_plato'      => 'required|string|max:150',
-            'insumo_id'         => 'required|integer|exists:insumos,id',
+            'nombre_plato' => 'required|string|max:150',
+            'insumo_id'    => [
+                'bail', 'required', 'integer', 'exists:insumos,id',
+                // Algoritmo 1: un insumo agotado bloquea la planificación de menús que lo requieran
+                function (string $attribute, mixed $value, \Closure $fail) {
+                    if ((float) DB::table('insumos')->where('id', $value)->value('stock_actual') <= 0) {
+                        $fail('El insumo seleccionado está agotado: no se puede planificar un menú que lo requiera.');
+                    }
+                },
+            ],
             // La columna es DECIMAL(6,2): el máximo representable es 9999.99
             'gramos_por_racion' => 'required|numeric|min:0.01|max:9999.99',
         ];

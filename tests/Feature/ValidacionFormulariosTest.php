@@ -113,4 +113,22 @@ class ValidacionFormulariosTest extends TestCase
 
         $this->assertDatabaseHas('lotes_inventario', ['codigo_lote' => 'L-LEN-01', 'estado_calidad' => 'Defectuoso/Verde']);
     }
+
+    public function test_no_se_planifica_un_menu_con_un_insumo_agotado(): void
+    {
+        $agotado = DB::table('insumos')->insertGetId([
+            'nombre_insumo' => 'Atún en conserva', 'stock_actual' => 0, 'stock_minimo_alerta' => 10,
+            'unidad_medida' => 'Unidades', 'created_at' => now(), 'updated_at' => now(),
+        ]);
+        $conStock = $this->crearInsumo('Papa');
+
+        $this->actingAs($this->encargada)->post('/menus', [
+            'nombre_plato' => 'Atún con arroz', 'insumo_id' => $agotado, 'gramos_por_racion' => 80,
+        ])->assertSessionHasErrors('insumo_id');
+
+        $this->actingAs($this->encargada)->post('/menus', [
+            'nombre_plato' => 'Guiso de papa', 'insumo_id' => $conStock, 'gramos_por_racion' => 200,
+        ])->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('menus_recetas', ['nombre_plato' => 'Guiso de papa']);
+    }
 }
