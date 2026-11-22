@@ -3,6 +3,9 @@
 @section('content')
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
     <h2 style="color: white;">Registrar Lote</h2>
+
+    @include('partials.errores')
+    
     <form action="{{ route('lotes.store') }}" method="POST">
         @csrf
         <label style="color: #cbd5e1;">Insumo:</label>
