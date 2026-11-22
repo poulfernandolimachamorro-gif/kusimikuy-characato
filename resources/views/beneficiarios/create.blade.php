@@ -5,6 +5,8 @@
 @section('content')
 <div class="caja-cristal" style="max-width: 600px; margin: 0 auto; padding: 2rem;">
     <h2 style="color: white; margin-bottom: 1.5rem;">Registrar Nuevo Comensal</h2>
+
+    @include('partials.errores')
     
     <form action="{{ route('beneficiarios.store') }}" method="POST">
         @csrf
