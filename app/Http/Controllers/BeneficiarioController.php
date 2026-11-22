@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\KardexService;
 use Illuminate\Support\Facades\DB;
 use App\Models\Beneficiario;
+use App\Models\EntregaRacion;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Exception;
 
 class BeneficiarioController extends Controller
