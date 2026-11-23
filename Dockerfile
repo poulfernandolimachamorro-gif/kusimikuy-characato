@@ -17,4 +17,8 @@ RUN npm install && npm run build
 RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
+
+# Endurecimiento de PHP: no revelar la versión (X-Powered-By) ni mostrar errores en pantalla
+RUN { echo "expose_php=Off"; echo "display_errors=Off"; echo "log_errors=On"; echo "error_log=/dev/stderr"; } > /usr/local/etc/php/conf.d/zz-seguridad.ini
+
 CMD ["./start.sh"]

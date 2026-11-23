@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Cabeceras de seguridad (CSP, X-Frame-Options, etc.) en todas las respuestas web
         $middleware->web(append: [
             \App\Http\Middleware\SecurityHeaders::class,
+            'throttle:100,1',   // máx. 100 peticiones por minuto y por IP: frena escaneos y fuerza bruta
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
