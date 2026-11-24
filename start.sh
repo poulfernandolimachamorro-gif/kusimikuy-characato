@@ -1,14 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e
+cd /var/www/html
 
-mkdir -p database
+PORT="${PORT:-10000}"
+
+# Apache escucha en el puerto que asigna Render
+sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
+sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
+
+# Base SQLite efímera: se crea, migra y siembra en cada arranque
 touch database/database.sqlite
+php artisan config:clear
+php artisan migrate --force --seed
 
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Apache corre como www-data: debe poder escribir en la base, las sesiones y los logs
+chown -R www-data:www-data storage bootstrap/cache database
 
-php artisan migrate --force
-php artisan db:seed --force
-
-php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+exec apache2-foreground

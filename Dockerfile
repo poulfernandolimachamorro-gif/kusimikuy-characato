@@ -1,24 +1,36 @@
-FROM php:8.4-cli
+FROM php:8.4-apache
+WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libonig-dev libxml2-dev libsqlite3-dev \
-    nodejs npm \
-    && docker-php-ext-install pdo_sqlite mbstring exif pcntl bcmath gd \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Dependencias del sistema y extensiones de PHP (GD para DomPDF, ZIP para Composer)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git unzip libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip \
+    && a2enmod rewrite headers \
+    && rm -rf /var/lib/apt/lists/*
+
+# Apache sirve solo la carpeta public/ (receta de la imagen oficial)
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Endurecimiento de Apache (debe ir DESPUÉS del bloque anterior)
+COPY docker/apache-seguridad.conf /etc/apache2/conf-available/seguridad.conf
+RUN a2enconf seguridad
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-interaction --no-scripts --prefer-dist
 
-WORKDIR /var/www/html
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN npm install && npm run build
+RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database \
+    && composer dump-autoload --optimize \
+    && chown -R www-data:www-data storage bootstrap/cache database \
+    && chmod +x start.sh
 
-RUN chmod -R 775 storage bootstrap/cache
+# Endurecimiento de PHP: no revelar la versión ni mostrar errores en pantalla
+RUN { echo "expose_php=Off"; echo "display_errors=Off"; echo "log_errors=On"; } > /usr/local/etc/php/conf.d/zz-seguridad.ini
 
 EXPOSE 10000
-
-# Endurecimiento de PHP: no revelar la versión (X-Powered-By) ni mostrar errores en pantalla
-RUN { echo "expose_php=Off"; echo "display_errors=Off"; echo "log_errors=On"; echo "error_log=/dev/stderr"; } > /usr/local/etc/php/conf.d/zz-seguridad.ini
-
-CMD ["./start.sh"]
+CMD ["sh", "start.sh"]
