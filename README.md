@@ -20,12 +20,14 @@ KusiMikuy es una aplicación web sobre **Laravel 13** que reemplaza los cuaderno
 |---|---|
 | RF-01 | Inicio de sesión con contraseñas Bcrypt y dos roles: Encargada y Voluntario. |
 | RF-02 | Padrón de beneficiarios (CRUD con baja lógica y paginación), identificados con códigos anonimizados (BEN-CHA-001). |
-| RF-03 | Registro de asistencia: la cuota (S/ 5.00 socio, S/ 8.00 público) se toma del padrón; un solo marcado por día y por persona; límite de raciones por persona; exoneración por vulnerabilidad. |
+| RF-03 | Registro de asistencia: la cuota (S/ 5.00 socio, S/ 8.00 público) se toma del padrón; un solo marcado por día y por persona; límite de raciones por persona; exoneración por vulnerabilidad autorizada solo por la Encargada. |
 | RF-04 | Bloqueo transaccional al superar 6.00 kg de arroz diarios (40 raciones de 0.15 kg). |
 | RF-05 | Documentos legales con alerta de vigencia (Vigente / Por vencer / Vencido). |
-| RF-06 | Informe de rendición de cuentas en PDF. |
-| RF-07 a RF-10 | Insumos (con protección del Arroz Común), gastos, lotes con semáforo de calidad, menús y recetas. |
+| RF-06 | Informe mensual de rendición de cuentas en PDF: ingresos, gastos, consumo de arroz del Kardex y mermas del mes elegido. |
+| RF-07 a RF-10 | Insumos (con protección del Arroz Común y autonomía estimada del almacén), gastos, lotes con semáforo de calidad, menús y recetas (sin insumos agotados). |
 | RF-11 | Control de asistencia diaria: quién asistió y quién no, cupo disponible y suplentes sugeridos (ausentes con menos asistencias en 30 días). |
+
+El panel principal alerta de lotes defectuosos o por vencer, insumos con stock bajo o agotado y documentos por vencer.
 
 ### Permisos por rol
 
@@ -34,8 +36,9 @@ KusiMikuy es una aplicación web sobre **Laravel 13** que reemplaza los cuaderno
 | Registrar asistencia y Control de asistencia | ✅ | ✅ |
 | Kardex (consulta de stock) | ✅ | ✅ |
 | Padrón, insumos, gastos, lotes, menús, documentos y reportes | ✅ | ❌ (HTTP 403) |
+| Exonerar una cuota | ✅ | ❌ |
 
-El registro público (`/register`) está bloqueado: las cuentas se crean por el seeder o por consola.
+El registro público (`/register`) está bloqueado: las cuentas las crea el equipo mediante el seeder o por consola.
 
 ## 3. Tecnologías
 
@@ -59,45 +62,53 @@ Abre http://127.0.0.1:8000. En `.env.example`, `APP_DEBUG` viene en `false`; par
 
 ## 5. Cuentas de demostración
 
-| Rol | Correo | Contraseña |
-|---|---|---|
-| Encargada | `felipe.characato@gmail.com` | `Characato2026*` |
-| Voluntario | `voluntario.characato@gmail.com` | `Voluntario2026*` |
+El seeder crea una cuenta con rol **Encargada** y otra con rol **Voluntario**. Las credenciales **se entregan al docente por separado** y no se publican en este repositorio.
 
 ## 6. Datos de demostración
 
 `php artisan migrate:fresh --seed` ejecuta `DatabaseSeeder` y `DemoDataSeeder`. Se crean 80 familias anonimizadas, 10 días de asistencias con su ingreso en caja, gastos con comprobante, lotes (uno defectuoso y uno por vencer), menús, documentos (una resolución por vencer) e insumos con el semáforo en sus tres estados. Todos los datos son **ficticios**. Los seeders son idempotentes: pueden ejecutarse varias veces sin duplicar registros.
 
-Para ver el bloqueo de 6 kg en vivo: la jornada de hoy queda con unas 34 raciones servidas; registra dos comensales con 4 raciones cada uno y el segundo será rechazado.
+La jornada de hoy queda con unas 34 raciones servidas: al registrar dos comensales con 4 raciones cada uno, el segundo será rechazado por el tope de 6 kg.
 
 ## 7. Pruebas automatizadas
 
 ```bash
 php artisan test
 ```
-Ejecuta **47 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común y cabeceras de seguridad.
+Ejecuta **45 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común, autonomía del almacén, informe mensual y cabeceras de seguridad.
 
 ## 8. Seguridad
 
-- Contraseñas con Bcrypt y control de acceso por roles (middleware `rol` y autorización en cada Form Request).
-- Prevención de inyección SQL con Eloquent y Query Builder; las expresiones `DB::raw` solo llevan constantes.
-- Prevención de XSS con el escape de Blade (`{{ }}`) y protección CSRF (`@csrf`) en los formularios.
-- Validación con clases Form Request (`app/Http/Requests`), mensajes en español, listas permitidas (`in`, `exists`) y datos entregados solo vía `validated()`.
-- Cabeceras HTTP de seguridad (`SecurityHeaders`): Content-Security-Policy, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy y HSTS bajo HTTPS. La política admite estilos y scripts en línea porque las vistas actuales los incluyen.
-- El archivo `.env`, la carpeta `vendor` y las credenciales no se versionan.
+Referencia: OWASP Top 10 (2021).
+
+| Categoría | Medidas aplicadas |
+|---|---|
+| A01 Control de acceso | Rutas privadas con `auth`; middleware `rol` apoyado en un Gate; autorización dentro de cada Form Request; exoneración solo de la Encargada; sin borrado de cuenta desde el perfil. |
+| A02 Criptografía | Contraseñas con Bcrypt; HTTPS con HSTS; cookies de sesión `Secure` y `HttpOnly`. |
+| A03 Inyección | Eloquent y Query Builder con parámetros (las únicas expresiones `DB::raw` llevan constantes); escape de Blade (`{{ }}`) sin `{!! !!}`; validación en el servidor con Form Requests, listas permitidas (`in`, `exists`) y datos entregados solo vía `validated()`. |
+| A04 Diseño inseguro | Límite global de 100 peticiones por minuto y por IP; recuperación de contraseña con respuesta genérica (no revela si un correo existe); un solo marcado de asistencia por día, también con índice UNIQUE. |
+| A05 Configuración | `APP_DEBUG=false` en producción; cabeceras `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, COOP y CORP; `X-Powered-By` oculto; PHP sin mostrar errores. Limitación conocida: la política CSP admite estilos y scripts en línea porque las vistas actuales los incluyen. |
+| A06 Componentes | `composer audit` y `npm audit` sin vulnerabilidades; Laravel actualizado. |
+| A07 Autenticación | Login limitado a 5 intentos; regeneración de sesión; registro público bloqueado. |
+| A08 Integridad | Font Awesome con integridad de subrecursos (SRI). |
+| A09 Registro | Se registran los inicios de sesión fallidos y los accesos denegados (solo IP y agente, nunca contraseñas). |
+
+El archivo `.env`, la carpeta `vendor` y las credenciales no se versionan. CSRF activo con `@csrf` en todos los formularios.
 
 ## 9. Despliegue en Render (Docker)
 
 El `Dockerfile` (imagen `php:8.4-cli`) y el script `start.sh` de la raíz construyen y arrancan la aplicación: crean la base SQLite, ejecutan `php artisan migrate --force --seed` y levantan el servidor en el puerto que asigna Render. Cada cambio en `main` se redespliega automáticamente.
 
-Variables de entorno del servicio (valores configurados en Render, no en el repositorio): `APP_NAME`, `APP_ENV=production`, `APP_DEBUG=false`, `APP_KEY`, `APP_URL`, `APP_TIMEZONE=America/Lima`, `DB_CONNECTION=sqlite`, `SESSION_DRIVER=database`, `CACHE_STORE=database`, `QUEUE_CONNECTION=sync`, `SESSION_SECURE_COOKIE=true`, `LOG_CHANNEL=stderr` y `LOG_LEVEL=warning`. Ruta de salud: `/up`.
+Variables de entorno del servicio (configuradas en Render, no en el repositorio): `APP_NAME`, `APP_ENV=production`, `APP_DEBUG=false`, `APP_KEY`, `APP_URL`, `APP_TIMEZONE=America/Lima`, `DB_CONNECTION=sqlite`, `SESSION_DRIVER=file`, `CACHE_STORE=file`, `QUEUE_CONNECTION=sync`, `SESSION_SECURE_COOKIE=true`, `LOG_CHANNEL=stderr` y `LOG_LEVEL=warning`. Ruta de salud: `/up`.
 
-Limitación: el plan gratuito suspende el servicio tras 15 minutos sin tráfico y no tiene disco persistente, por lo que la base se recrea en cada arranque. Para uso real se plantea un VPS con MySQL 8.
+Respaldo: etiqueta `v1.0-respaldo` y rama `respaldo-estable` en este repositorio.
+
+Limitaciones: el plan gratuito suspende el servicio tras 15 minutos sin tráfico y no tiene disco persistente, por lo que la base se recrea en cada arranque. La aplicación usa el servidor integrado de PHP, adecuado para la demostración; para uso real se plantea un VPS con Nginx, PHP-FPM y MySQL 8.
 
 ## 10. Estructura principal
 
 ```
-app/Http/Controllers/   Beneficiario, ControlAsistencia, Insumo, Gasto, Lote, Menu, Documento, Reporte, Dashboard
+app/Http/Controllers/   Beneficiario, ControlAsistencia, Kardex, Insumo, Gasto, Lote, Menu, Documento, Reporte, Dashboard
 app/Http/Requests/      Form Requests con las reglas y mensajes en español
 app/Http/Middleware/    CheckRole (alias "rol") y SecurityHeaders
 app/Services/           KardexService (transacciones, tope de 6 kg y tarifas)
