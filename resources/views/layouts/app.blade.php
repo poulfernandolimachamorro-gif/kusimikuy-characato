@@ -59,8 +59,11 @@
         .subtexto { color: #94a3b8; font-size: 0.9rem; }
     </style>
     
-    <!-- Íconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Íconos con SRI (Subresource Integrity) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0"
+          crossorigin="anonymous">
 </head>
 <body>
     <!-- Menú superior -->
