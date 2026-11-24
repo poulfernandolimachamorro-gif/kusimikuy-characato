@@ -68,11 +68,19 @@ class BeneficiarioController extends Controller
             ]);
         }
 
+        // Solo la Encargada puede exonerar una cuota (control de caja)
+        $exonerado = $request->boolean('exonerado');
+        if ($exonerado && $request->user()->rol !== 'Encargada') {
+            return redirect()->back()->withInput()->withErrors([
+                'exoneracion' => 'Solo la Encargada puede autorizar la exoneración de una cuota.',
+            ]);
+        }
+
         try {
             $cuotaCobrada = $this->kardexService->registrarEntrega(
                 $beneficiario,
                 $validated['raciones_retiradas'],
-                $request->boolean('exonerado')
+                $exonerado
             );
 
             return redirect()->back()->with('success', sprintf(

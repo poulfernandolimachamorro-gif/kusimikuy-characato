@@ -100,7 +100,10 @@ class AsistenciaTest extends TestCase
     {
         $this->crearBeneficiario('BEN-TST-004', 'Público General', 2);
 
-        $this->marcar('BEN-TST-004', 2, ['exonerado' => '1']);
+        $encargada = User::factory()->create(['rol' => 'Encargada']);
+        $this->actingAs($encargada)->post('/asistencia/registrar', [
+            'codigo_beneficiario' => 'BEN-TST-004', 'raciones_retiradas' => 2, 'exonerado' => '1',
+        ]);
 
         $this->assertEquals(0.0, (float) DB::table('entregas_raciones')->value('cuota_cobrada'));
     }

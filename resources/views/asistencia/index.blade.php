@@ -207,12 +207,14 @@
                     </div>
 
                     <!-- Exoneración de cuota -->
+                    @if(auth()->user()->rol === 'Encargada')
                     <div style="margin-bottom: 1.75rem; background: rgba(250, 204, 21, 0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px dashed rgba(250, 204, 21, 0.15);">
                         <label for="exonerado" style="display: flex; align-items: center; gap: 0.5rem; margin: 0; cursor: pointer; user-select: none;">
                             <input type="checkbox" id="exonerado" name="exonerado" value="1" {{ old('exonerado') ? 'checked' : '' }} style="margin: 0; width: 15px; height: 15px;">
                             <span style="font-size: 0.85rem; font-weight: 600; color: #facc15;">Exonerar cuota por vulnerabilidad extrema.</span>
                         </label>
                     </div>
+                    @endif
 
                     <!-- Botón de envío (los IDs los usa el script del final) -->
                     <button type="submit" class="btn-premium" id="btn-guardar">
