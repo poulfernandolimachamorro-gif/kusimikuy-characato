@@ -12,10 +12,25 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" style="color: #f87171; font-size: 0.85rem; margin-top: 0.5rem;" />
         </div>
 
-        <!-- Contraseña -->
+        <!-- Contraseña con botón de ojo -->
         <div style="margin-bottom: 1.5rem;">
             <label for="password">Contraseña</label>
-            <input id="password" class="input-dark" type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+            <div style="position: relative; display: flex; align-items: center;">
+                <input id="password"
+                       class="input-dark"
+                       type="password"
+                       name="password"
+                       required
+                       autocomplete="current-password"
+                       placeholder="••••••••"
+                       style="padding-right: 2.8rem !important;">
+                <button type="button"
+                        id="toggle-password"
+                        aria-label="Mostrar u ocultar contraseña"
+                        style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-25%); background: transparent; border: none; color: #94a3b8; cursor: pointer; padding: 0.25rem; width: auto; margin: 0;">
+                    <i class="fa-solid fa-eye" id="icon-password"></i>
+                </button>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" style="color: #f87171; font-size: 0.85rem; margin-top: 0.5rem;" />
         </div>
 
@@ -37,4 +52,18 @@
             </button>
         </div>
     </form>
+
+    <script>
+        document.getElementById('toggle-password').addEventListener('click', function () {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('icon-password');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    </script>
 </x-guest-layout>

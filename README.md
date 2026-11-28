@@ -75,7 +75,7 @@ La jornada de hoy queda con unas 34 raciones servidas: al registrar dos comensal
 ```bash
 php artisan test
 ```
-Ejecuta **45 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común, autonomía del almacén, informe mensual y cabeceras de seguridad.
+Ejecuta **46 pruebas** sobre SQLite en memoria: autenticación y perfil (Breeze, incluido el bloqueo de `/register`), asistencia (tarifa desde el padrón, duplicado, límite por persona y tope de 6 kg), control de asistencia (acceso por rol, resumen, cupo y suplentes), validación de formularios, protección del Arroz Común, autonomía del almacén, informe mensual y cabeceras de seguridad.
 
 ## 8. Seguridad
 
