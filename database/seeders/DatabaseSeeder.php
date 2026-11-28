@@ -8,30 +8,19 @@ use App\Models\MovimientoKardex;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Usuarios demo, uno por rol (a prueba de duplicados)
-        $user = User::firstOrCreate(
-            ['email' => 'felipe.characato@gmail.com'],
-            [
-                'name'     => 'Félipe Comedor',
-                'password' => Hash::make('Characato2026*'),
-                'rol'      => 'Encargada',
-            ]
-        );
+         // 1. Usuarios demo, uno por rol. Las contraseñas NO están en el código ni en el repositorio:
+        //    se leen de las variables de entorno DEMO_ENCARGADA_PASSWORD y DEMO_VOLUNTARIO_PASSWORD.
+        //    Si no están definidas, la cuenta existe pero con una clave aleatoria que nadie conoce.
+        $user = $this->usuarioDemo('felipe.characato@gmail.com', 'Félipe Comedor', 'Encargada', env('DEMO_ENCARGADA_PASSWORD'));
+        $this->usuarioDemo('voluntario.characato@gmail.com', 'Voluntaria de Cocina', 'Voluntario', env('DEMO_VOLUNTARIO_PASSWORD'));
 
-        User::firstOrCreate(
-            ['email' => 'voluntario.characato@gmail.com'],
-            [
-                'name'     => 'Voluntaria de Cocina',
-                'password' => Hash::make('Voluntario2026*'),
-                'rol'      => 'Voluntario',
-            ]
-        );
 
         // 2. Inyectar datos semilla en el padrón (A prueba de duplicados)
         $comensales = [
@@ -89,4 +78,12 @@ class DatabaseSeeder extends Seeder
         // 5. Datos de demostración para la exposición (padrón completo, asistencias, etc.)
         $this->call(DemoDataSeeder::class);
     }
+    private function usuarioDemo(string $email, string $nombre, string $rol, ?string $clave): User
+{
+    return User::updateOrCreate(
+        ['email' => $email],
+        ['name' => $nombre, 'password' => Hash::make($clave ?: Str::random(40)), 'rol' => $rol]
+    );
+}
+
 }

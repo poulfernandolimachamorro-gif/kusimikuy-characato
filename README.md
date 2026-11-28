@@ -62,7 +62,7 @@ Abre http://127.0.0.1:8000. En `.env.example`, `APP_DEBUG` viene en `false`; par
 
 ## 5. Cuentas de demostración
 
-El seeder crea una cuenta con rol **Encargada** y otra con rol **Voluntario**. Las credenciales **se entregan al docente por separado** y no se publican en este repositorio.
+Las cuentas demo (Encargada y Voluntario) toman su contraseña de las variables de entorno DEMO_ENCARGADA_PASSWORD y DEMO_VOLUNTARIO_PASSWORD, que no están en el repositorio y se entregan al docente por separado. En la sección 9, agrega esas dos variables a la lista de Render.
 
 ## 6. Datos de demostración
 
