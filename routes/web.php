@@ -52,6 +52,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('lotes', LoteController::class)->except(['show', 'edit', 'update']);
         Route::resource('menus', MenuController::class)->except(['show', 'edit', 'update']);
         Route::resource('documentos', DocumentoController::class)->except(['show', 'edit', 'update']);
+
+        // Rutas operativas: lista de roles permitidos explícita (decisión de diseño documentada en el informe, 3.2)
+    Route::middleware('rol:Encargada,Voluntario')->group(function () {
+        Route::get('/asistencia', [BeneficiarioController::class, 'mostrarAsistencia'])->name('asistencia.index');
+        Route::post('/asistencia/registrar', [BeneficiarioController::class, 'registrarAsistencia'])->name('asistencia.store');
+        Route::get('/asistencia/control', [ControlAsistenciaController::class, 'index'])->name('asistencia.control');
+        Route::get('/kardex', [KardexController::class, 'index'])->name('kardex.index');
+    });
     });
 
     // Rutas del Perfil de Usuario (Breeze Scaffolding)

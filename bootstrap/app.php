@@ -30,6 +30,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\SecurityHeaders::class,
             'throttle:100,1',   // máx. 100 peticiones por minuto y por IP: frena escaneos y fuerza bruta
         ]);
+
+        $middleware->web(replace: [
+            \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class => \App\Http\Middleware\PreventRequestForgery::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
